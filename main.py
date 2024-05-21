@@ -2,30 +2,36 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.nn import functional as F
+import torchvision.transforms as transforms
+from torchvision.datasets import ImageFolder
+from torch.utils.data import DataLoader
 
+# Mapping Network
 class MappingNetwork(nn.Module):
     def __init__(self, latent_dim, hidden_dim, num_layers):
-        super().__init__()
-        layers = [nn.Linear(latent_dim, hidden_dim), nn.LeakyReLU(0.2)]
+        super(MappingNetwork, self).__init__()
+        layers = [nn.Linear(latent_dim, hidden_dim), nn.ReLU()]
         for _ in range(num_layers - 1):
-            layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.LeakyReLU(0.2)])
+            layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.ReLU()])
         self.mapping = nn.Sequential(*layers)
     
     def forward(self, x):
         return self.mapping(x)
 
+# Noise Injection
 class NoiseInjection(nn.Module):
-    def __init__(self, num_channels):
-        super().__init__()
-        self.scale = nn.Parameter(torch.zeros(1, num_channels, 1, 1))
+    def __init__(self):
+        super(NoiseInjection, self).__init__()
+        self.scale = nn.Parameter(torch.zeros(1))
     
     def forward(self, x):
         noise = torch.randn_like(x)
         return x + self.scale * noise
 
+# Adaptive Instance Normalization (AdaIN)
 class AdaIN(nn.Module):
     def __init__(self, latent_dim, channels):
-        super().__init__()
+        super(AdaIN, self).__init__()
         self.norm = nn.InstanceNorm2d(channels)
         self.style = nn.Linear(latent_dim, channels * 2)
     
@@ -34,9 +40,10 @@ class AdaIN(nn.Module):
         gamma, beta = style.chunk(2, 1)
         return (1 + gamma) * self.norm(x) + beta
 
+# Self-Attention
 class SelfAttention(nn.Module):
     def __init__(self, in_channels):
-        super().__init__()
+        super(SelfAttention, self).__init__()
         self.query = nn.Conv2d(in_channels, in_channels // 8, 1)
         self.key = nn.Conv2d(in_channels, in_channels // 8, 1)
         self.value = nn.Conv2d(in_channels, in_channels, 1)
@@ -53,12 +60,24 @@ class SelfAttention(nn.Module):
         out = out.view(batch_size, channels, height, width)
         return self.gamma * out + x
 
+# Blur
+class Blur(nn.Module):
+    def __init__(self, channels):
+        super(Blur, self).__init__()
+        kernel = torch.tensor([[1, 2, 1], [2, 4, 2], [1, 2, 1]], dtype=torch.float32)
+        kernel = kernel[None, None, :, :] / kernel.sum()
+        self.register_buffer('kernel', kernel.repeat(channels, 1, 1, 1))
+    
+    def forward(self, x):
+        return F.conv2d(x, self.kernel, stride=1, padding=1, groups=x.shape[1])
+
+# Style Layer
 class StyleLayer(nn.Module):
     def __init__(self, latent_dim, in_channels, out_channels, kernel_size=3, upsample=False, attention=False):
-        super().__init__()
-        self.noise_injection = NoiseInjection(out_channels)
+        super(StyleLayer, self).__init__()
+        self.noise_injection = NoiseInjection()
         self.adain = AdaIN(latent_dim, out_channels)
-        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, padding=kernel_size//2)
+        self.conv = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, kernel_size, padding=kernel_size//2))
         self.act = nn.LeakyReLU(0.2)
         self.upsample = upsample
         if upsample:
@@ -77,42 +96,30 @@ class StyleLayer(nn.Module):
             x = self.attention(x)
         return x
 
-class Blur(nn.Module):
-    def __init__(self, channels):
-        super().__init__()
-        kernel = torch.tensor([[1, 2, 1], [2, 4, 2], [1, 2, 1]], dtype=torch.float32)
-        kernel = kernel[None, None, :, :] / kernel.sum()
-        self.register_buffer('kernel', kernel.repeat(channels, 1, 1, 1))
-    
-    def forward(self, x):
-        return F.conv2d(x, self.kernel, stride=1, padding=1, groups=x.shape[1])
-
+# Residual Block
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels, downsample=False):
-        super().__init__()
-        self.conv1 = nn.Conv2d(in_channels, out_channels, 3, padding=1)
-        self.act1 = nn.LeakyReLU(0.2)
-        self.conv2 = nn.Conv2d(out_channels, out_channels, 3, padding=1)
-        self.act2 = nn.LeakyReLU(0.2)
+        super(ResidualBlock, self).__init__()
+        self.conv1 = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, 3, padding=1))
+        self.act = nn.LeakyReLU(0.2)
+        self.conv2 = nn.utils.spectral_norm(nn.Conv2d(out_channels, out_channels, 3, padding=1))
         self.downsample = downsample
-        if downsample:
-            self.downsample_layer = nn.Conv2d(in_channels, out_channels, 1, stride=2)
-        else:
-            self.downsample_layer = None
+        self.downsample_layer = nn.Conv2d(in_channels, out_channels, 1, stride=2) if downsample else None
 
     def forward(self, x):
         residual = x
         x = self.conv1(x)
-        x = self.act1(x)
+        x = self.act(x)
         x = self.conv2(x)
         if self.downsample:
             x = F.avg_pool2d(x, 2)
             residual = self.downsample_layer(residual)
-        return self.act2(x + residual)
+        return x + residual
 
+# Generator
 class Generator(nn.Module):
     def __init__(self, latent_dim, hidden_dim, output_channels, num_layers):
-        super().__init__()
+        super(Generator, self).__init__()
         self.mapping = MappingNetwork(latent_dim, hidden_dim, num_layers)
         self.style_layers = nn.ModuleList([
             StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
@@ -139,11 +146,12 @@ class Generator(nn.Module):
         x = self.to_rgb(x)
         return x
 
+# Discriminator
 class Discriminator(nn.Module):
     def __init__(self, input_channels, hidden_dim, num_layers):
-        super().__init__()
+        super(Discriminator, self).__init__()
         self.layers = nn.ModuleList([
-            nn.Conv2d(input_channels, hidden_dim, 4, stride=2, padding=1),
+            nn.utils.spectral_norm(nn.Conv2d(input_channels, hidden_dim, 4, stride=2, padding=1)),
             nn.LeakyReLU(0.2)
         ])
         
@@ -164,47 +172,19 @@ class Discriminator(nn.Module):
     def forward(self, x):
         return self.model(x)
 
-class ExponentialMovingAverage:
-    def __init__(self, parameters, decay):
-        self.parameters = list(parameters)
-        self.decay = decay
-        self.shadow_params = [p.clone() for p in self.parameters]
-    
-    def update(self, parameters):
-        for shadow_param, param in zip(self.shadow_params, parameters):
-            shadow_param.data.copy_(self.decay * shadow_param.data + (1 - self.decay) * param.data)
-
-def r1_regularization(discriminator, real_images, gamma=10):
-    real_images.requires_grad_(True)
-    real_scores = discriminator(real_images)
-    gradients = torch.autograd.grad(
-        outputs=real_scores.sum(), inputs=real_images, create_graph=True
-    )[0]
-    gradients = gradients.view(gradients.size(0), -1)
-    gradient_penalty = gradients.norm(2, dim=1).pow(2).mean() * gamma / 2
-    return gradient_penalty
-
-def path_length_regularization(generator, z, path_length_penalty_weight=2):
-    noise = torch.randn_like(z)
-    output = generator(z + noise)
-    path_lengths = torch.sqrt(torch.sum((output - generator(z)).pow(2), dim=[1, 2, 3]))
-    path_length_regularization = path_lengths.mean() * path_length_penalty_weight
-    return path_length_regularization
-
-def style_mixing_regularization(generator, z, mixing_prob=0.9, weight=2):
-    z1 = torch.randn_like(z)
-    z2 = torch.randn_like(z)
-    mixed_z = [z1[:, :z1.shape[1] // 2], z2[:, z2.shape[1] // 2:]]
-    mixed_z = torch.cat(mixed_z, dim=1)
-    mixed_images = generator(mixed_z)
-    style_mixing_regularization = weight * torch.mean(torch.abs(mixed_images - generator(z2)))
-    return style_mixing_regularization
-
+# Training loop with gradient penalty, path length regularization, and style mixing regularization
 def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
-    g_optim = optim.Adam(generator.parameters(), lr=0.002, betas=(0.5, 0.999))
-    d_optim = optim.Adam(discriminator.parameters(), lr=0.002, betas=(0.5, 0.999))
+    g_optim = optim.Adam(generator.parameters(), lr=0.001, betas=(0.0, 0.99))
+    d_optim = optim.Adam(discriminator.parameters(), lr=0.001, betas=(0.0, 0.99))
     
-    g_ema = ExponentialMovingAverage(generator.parameters(), decay=0.995)
+    g_ema = ExponentialMovingAverage(generator.parameters(), decay=0.999)
+    
+    # Use hinge loss for improved training stability
+    def d_loss_fn(real_scores, fake_scores):
+        return F.relu(1.0 - real_scores).mean() + F.relu(1.0 + fake_scores).mean()
+    
+    def g_loss_fn(fake_scores):
+        return -fake_scores.mean()
     
     for epoch in range(num_epochs):
         for real_images in dataloader:
@@ -215,14 +195,14 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
             d_optim.zero_grad()
             
             z = torch.randn(batch_size, latent_dim).to(device)
-            fake_images = generator(z).detach()
+            fake_images = generator(z)
             
             real_scores = discriminator(real_images)
-            fake_scores = discriminator(fake_images)
+            fake_scores = discriminator(fake_images.detach())
             
-            d_loss = F.softplus(-real_scores).mean() + F.softplus(fake_scores).mean()
-            d_loss += r1_regularization(discriminator, real_images)
+            gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
             
+            d_loss = d_loss_fn(real_scores, fake_scores) + 10 * gradient_penalty
             d_loss.backward()
             d_optim.step()
             
@@ -234,10 +214,10 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
             
             fake_scores = discriminator(fake_images)
             
-            g_loss = F.softplus(-fake_scores).mean()
-            g_loss += path_length_regularization(generator, z)
-            g_loss += style_mixing_regularization(generator, z)
+            path_length_regularization = compute_path_length_regularization(generator, z, fake_images)
+            style_mixing_regularization = compute_style_mixing_regularization(generator, z)
             
+            g_loss = g_loss_fn(fake_scores) + 2 * path_length_regularization + 2 * style_mixing_regularization
             g_loss.backward()
             g_optim.step()
             
@@ -246,49 +226,67 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
         # Evaluate and save checkpoints
         # ...
 
-import torchvision.transforms as transforms
-from torchvision.datasets import ImageFolder
-from torch.utils.data import DataLoader
+# Compute gradient penalty for WGAN-GP
+def compute_gradient_penalty(discriminator, real_images, fake_images, device):
+    alpha = torch.rand(real_images.size(0), 1, 1, 1).to(device)
+    interpolated = (alpha * real_images + (1 - alpha) * fake_images).requires_grad_(True)
+    
+    interpolated_scores = discriminator(interpolated)
+    
+    gradients = torch.autograd.grad(
+        outputs=interpolated_scores,
+        inputs=interpolated,
+        grad_outputs=torch.ones(interpolated_scores.size()).to(device),
+        create_graph=True,
+        retain_graph=True,
+        only_inputs=True
+    )[0]
+    
+    gradients = gradients.view(gradients.size(0), -1)
+    gradient_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean()
+    
+    return gradient_penalty
 
+# Compute path length regularization
+def compute_path_length_regularization(generator, z, fake_images):
+    # Implementation of path length regularization
+    path_lengths = torch.sqrt((fake_images ** 2).sum([2, 3])).mean(1)
+    return ((path_lengths - path_lengths.mean()) ** 2).mean()
+
+# Compute style mixing regularization
+def compute_style_mixing_regularization(generator, z):
+    # Implementation of style mixing regularization
+    z2 = torch.randn_like(z)
+    fake_images2 = generator(z2)
+    mixed_fake_images = 0.5 * fake_images + 0.5 * fake_images2
+    return ((mixed_fake_images - mixed_fake_images.mean()) ** 2).mean()
+
+class ExponentialMovingAverage:
+    def __init__(self, parameters, decay):
+        self.parameters = list(parameters)
+        self.decay = decay
+        self.shadow_params = [p.clone().detach() for p in self.parameters]
+
+    def update(self, parameters):
+        for shadow_param, param in zip(self.shadow_params, parameters):
+            shadow_param.data = self.decay * shadow_param.data + (1.0 - self.decay) * param.data
+
+# Data loading and preprocessing
 transform = transforms.Compose([
-    transforms.Resize((256, 256)),
     transforms.RandomHorizontalFlip(),
+    transforms.CenterCrop(128),
     transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
 ])
 
-dataset = ImageFolder('path/to/cat/images', transform=transform)
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4)
+dataset = ImageFolder('path_to_your_dataset', transform=transform)
+dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4, pin_memory=True)
 
-# Example usage
-latent_dim = 512
-hidden_dim = 512
-output_channels = 3
-num_layers = 8
+# Initialize models and move to device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+latent_dim = 512
+generator = Generator(latent_dim, hidden_dim=512, output_channels=3, num_layers=8).to(device)
+discriminator = Discriminator(input_channels=3, hidden_dim=64, num_layers=4).to(device)
 
-generator = Generator(latent_dim, hidden_dim, output_channels, num_layers).to(device)
-discriminator = Discriminator(output_channels, hidden_dim, num_layers).to(device)
-
-num_epochs = 1000
-train(generator, discriminator, dataloader, num_epochs, latent_dim, device)
-
-# Truncation trick for inference
-def truncated_latent_space(generator, latent_dim, truncation_psi, num_samples=1):
-    z = torch.randn(num_samples, latent_dim, device=generator.mapping.layers[0].weight.device)
-    w = generator.mapping(z)
-    w_avg = generator.mapping.w_avg
-    w = truncation_psi * (w - w_avg) + w_avg
-    return w
-
-# Example usage
-num_samples = 10
-truncation_psi = 0.7
-
-generator.load_state_dict(torch.load('path/to/generator/checkpoint.pth'))
-generator.eval()
-
-truncated_w = truncated_latent_space(generator, latent_dim, truncation_psi, num_samples)
-
-with torch.no_grad():
-    generated_images = generator(truncated_w)
+# Train the GAN
+train(generator, discriminator, dataloader, num_epochs=100, latent_dim=latent_dim, device=device)
