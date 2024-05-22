@@ -1,3 +1,4 @@
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -8,6 +9,9 @@ from torch.utils.data import DataLoader
 
 # Mapping Network
 class MappingNetwork(nn.Module):
+    """
+    Mapping Network class for mapping latent vectors to intermediate latent space.
+    """
     def __init__(self, latent_dim, hidden_dim, num_layers):
         super(MappingNetwork, self).__init__()
         layers = [nn.Linear(latent_dim, hidden_dim), nn.ReLU()]
@@ -20,6 +24,9 @@ class MappingNetwork(nn.Module):
 
 # Noise Injection
 class NoiseInjection(nn.Module):
+    """
+    Noise Injection class for adding random noise to feature maps.
+    """
     def __init__(self):
         super(NoiseInjection, self).__init__()
         self.scale = nn.Parameter(torch.zeros(1))
@@ -30,6 +37,9 @@ class NoiseInjection(nn.Module):
 
 # Adaptive Instance Normalization (AdaIN)
 class AdaIN(nn.Module):
+    """
+    Adaptive Instance Normalization (AdaIN) class for applying style to feature maps.
+    """
     def __init__(self, latent_dim, channels):
         super(AdaIN, self).__init__()
         self.norm = nn.InstanceNorm2d(channels)
@@ -42,6 +52,9 @@ class AdaIN(nn.Module):
 
 # Self-Attention
 class SelfAttention(nn.Module):
+    """
+    Self-Attention class for applying self-attention to feature maps.
+    """
     def __init__(self, in_channels):
         super(SelfAttention, self).__init__()
         self.query = nn.Conv2d(in_channels, in_channels // 8, 1)
@@ -62,6 +75,9 @@ class SelfAttention(nn.Module):
 
 # Blur
 class Blur(nn.Module):
+    """
+    Blur class for applying blurring to feature maps.
+    """
     def __init__(self, channels):
         super(Blur, self).__init__()
         kernel = torch.tensor([[1, 2, 1], [2, 4, 2], [1, 2, 1]], dtype=torch.float32)
@@ -73,6 +89,9 @@ class Blur(nn.Module):
 
 # Style Layer
 class StyleLayer(nn.Module):
+    """
+    Style Layer class for applying style and upsampling/downsampling to feature maps.
+    """
     def __init__(self, latent_dim, in_channels, out_channels, kernel_size=3, upsample=False, attention=False):
         super(StyleLayer, self).__init__()
         self.noise_injection = NoiseInjection()
@@ -98,6 +117,9 @@ class StyleLayer(nn.Module):
 
 # Residual Block
 class ResidualBlock(nn.Module):
+    """
+    Residual Block class for applying residual connections to feature maps.
+    """
     def __init__(self, in_channels, out_channels, downsample=False):
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, 3, padding=1))
@@ -118,6 +140,9 @@ class ResidualBlock(nn.Module):
 
 # Generator
 class Generator(nn.Module):
+    """
+    Generator class for generating images from latent vectors.
+    """
     def __init__(self, latent_dim, hidden_dim, output_channels, num_layers):
         super(Generator, self).__init__()
         self.mapping = MappingNetwork(latent_dim, hidden_dim, num_layers)
@@ -148,6 +173,9 @@ class Generator(nn.Module):
 
 # Discriminator
 class Discriminator(nn.Module):
+    """
+    Discriminator class for determining the realness of generated images.
+    """
     def __init__(self, input_channels, hidden_dim, num_layers):
         super(Discriminator, self).__init__()
         self.layers = nn.ModuleList([
@@ -174,6 +202,9 @@ class Discriminator(nn.Module):
 
 # Training loop with gradient penalty, path length regularization, and style mixing regularization
 def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
+    """
+    Training loop for the GAN.
+    """
     g_optim = optim.Adam(generator.parameters(), lr=0.001, betas=(0.0, 0.99))
     d_optim = optim.Adam(discriminator.parameters(), lr=0.001, betas=(0.0, 0.99))
     
@@ -228,6 +259,9 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
 
 # Compute gradient penalty for WGAN-GP
 def compute_gradient_penalty(discriminator, real_images, fake_images, device):
+    """
+    Computes the gradient penalty for WGAN-GP.
+    """
     alpha = torch.rand(real_images.size(0), 1, 1, 1).to(device)
     interpolated = (alpha * real_images + (1 - alpha) * fake_images).requires_grad_(True)
     
@@ -249,19 +283,26 @@ def compute_gradient_penalty(discriminator, real_images, fake_images, device):
 
 # Compute path length regularization
 def compute_path_length_regularization(generator, z, fake_images):
-    # Implementation of path length regularization
+    """
+    Computes the path length regularization term for the generator.
+    """
     path_lengths = torch.sqrt((fake_images ** 2).sum([2, 3])).mean(1)
     return ((path_lengths - path_lengths.mean()) ** 2).mean()
 
 # Compute style mixing regularization
 def compute_style_mixing_regularization(generator, z):
-    # Implementation of style mixing regularization
+    """
+    Computes the style mixing regularization term for the generator.
+    """
     z2 = torch.randn_like(z)
     fake_images2 = generator(z2)
     mixed_fake_images = 0.5 * fake_images + 0.5 * fake_images2
     return ((mixed_fake_images - mixed_fake_images.mean()) ** 2).mean()
 
 class ExponentialMovingAverage:
+    """
+    Exponential Moving Average (EMA) class for model parameters.
+    """
     def __init__(self, parameters, decay):
         self.parameters = list(parameters)
         self.decay = decay
@@ -290,3 +331,4 @@ discriminator = Discriminator(input_channels=3, hidden_dim=64, num_layers=4).to(
 
 # Train the GAN
 train(generator, discriminator, dataloader, num_epochs=100, latent_dim=latent_dim, device=device)
+
