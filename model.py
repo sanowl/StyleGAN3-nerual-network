@@ -9,9 +9,9 @@ class MappingNetwork(nn.Module):
     """
     def __init__(self, latent_dim, hidden_dim, num_layers):
         super(MappingNetwork, self).__init__()
-        layers = [nn.Linear(latent_dim, hidden_dim), nn.ReLU()]
+        layers = [nn.Linear(latent_dim, hidden_dim), nn.LeakyReLU(0.2)]
         for _ in range(num_layers - 1):
-            layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.ReLU()])
+            layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.LeakyReLU(0.2)])
         self.mapping = nn.Sequential(*layers)
     
     def forward(self, x):
@@ -22,9 +22,9 @@ class NoiseInjection(nn.Module):
     """
     Noise Injection class for adding random noise to feature maps.
     """
-    def __init__(self):
+    def __init__(self, channels):
         super(NoiseInjection, self).__init__()
-        self.scale = nn.Parameter(torch.zeros(1))
+        self.scale = nn.Parameter(torch.zeros(1, channels, 1, 1))
     
     def forward(self, x):
         noise = torch.randn_like(x)
@@ -89,7 +89,7 @@ class StyleLayer(nn.Module):
     """
     def __init__(self, latent_dim, in_channels, out_channels, kernel_size=3, upsample=False, attention=False):
         super(StyleLayer, self).__init__()
-        self.noise_injection = NoiseInjection()
+        self.noise_injection = NoiseInjection(out_channels)
         self.adain = AdaIN(latent_dim, out_channels)
         self.conv = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, kernel_size, padding=kernel_size//2))
         self.act = nn.LeakyReLU(0.2)
@@ -118,20 +118,21 @@ class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels, downsample=False):
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, 3, padding=1))
-        self.act = nn.LeakyReLU(0.2)
+        self.act1 = nn.LeakyReLU(0.2)
         self.conv2 = nn.utils.spectral_norm(nn.Conv2d(out_channels, out_channels, 3, padding=1))
+        self.act2 = nn.LeakyReLU(0.2)
         self.downsample = downsample
         self.downsample_layer = nn.Conv2d(in_channels, out_channels, 1, stride=2) if downsample else None
 
     def forward(self, x):
         residual = x
         x = self.conv1(x)
-        x = self.act(x)
+        x = self.act1(x)
         x = self.conv2(x)
         if self.downsample:
             x = F.avg_pool2d(x, 2)
             residual = self.downsample_layer(residual)
-        return x + residual
+        return self.act2(x + residual)
 
 # Generator
 class Generator(nn.Module):
