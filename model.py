@@ -13,7 +13,7 @@ class MappingNetwork(nn.Module):
         for _ in range(num_layers - 1):
             layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.ReLU()])
         self.mapping = nn.Sequential(*layers)
-    
+
     def forward(self, x):
         return self.mapping(x)
 
@@ -25,10 +25,11 @@ class NoiseInjection(nn.Module):
     def __init__(self):
         super(NoiseInjection, self).__init__()
         self.scale = nn.Parameter(torch.zeros(1))
-    
+
     def forward(self, x):
         noise = torch.randn_like(x)
         return x + self.scale * noise
+
 
 # Adaptive Instance Normalization (AdaIN)
 class AdaIN(nn.Module):
@@ -39,7 +40,7 @@ class AdaIN(nn.Module):
         super(AdaIN, self).__init__()
         self.norm = nn.InstanceNorm2d(channels)
         self.style = nn.Linear(latent_dim, channels * 2)
-    
+
     def forward(self, x, w):
         style = self.style(w).unsqueeze(-1).unsqueeze(-1)
         gamma, beta = style.chunk(2, 1)
@@ -78,7 +79,7 @@ class Blur(nn.Module):
         kernel = torch.tensor([[1, 2, 1], [2, 4, 2], [1, 2, 1]], dtype=torch.float32)
         kernel = kernel[None, None, :, :] / kernel.sum()
         self.register_buffer('kernel', kernel.repeat(channels, 1, 1, 1))
-    
+
     def forward(self, x):
         return F.conv2d(x, self.kernel, stride=1, padding=1, groups=x.shape[1])
 
@@ -97,7 +98,7 @@ class StyleLayer(nn.Module):
         if upsample:
             self.blur = Blur(out_channels)
         self.attention = SelfAttention(out_channels) if attention else None
-    
+
     def forward(self, x, w):
         if self.upsample:
             x = F.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
@@ -156,7 +157,7 @@ class Generator(nn.Module):
             nn.Conv2d(output_channels, output_channels, 1),
             nn.Tanh()
         )
-    
+
     def forward(self, z):
         w = self.mapping(z)
         w = w.unsqueeze(1).repeat(1, len(self.style_layers), 1)
@@ -177,20 +178,20 @@ class Discriminator(nn.Module):
             nn.utils.spectral_norm(nn.Conv2d(input_channels, hidden_dim, 4, stride=2, padding=1)),
             nn.LeakyReLU(0.2)
         ])
-        
+
         for _ in range(num_layers - 1):
             self.layers.extend([
                 ResidualBlock(hidden_dim, hidden_dim * 2, downsample=True),
                 nn.LeakyReLU(0.2)
             ])
             hidden_dim *= 2
-        
+
         self.layers.extend([
             nn.Conv2d(hidden_dim, 1, 4, stride=1, padding=0),
             nn.Flatten()
         ])
-        
+
         self.model = nn.Sequential(*self.layers)
-    
+
     def forward(self, x):
         return self.model(x)

@@ -1,3 +1,4 @@
+
 import torch
 import torch.nn as nn
 
@@ -18,3 +19,4 @@ coords = torch.randn((16, 2))  # 16 points in 2D space
 fourier_features = FourierFeatures(2, 64)  # Map to 64 dimensions
 encoded_coords = fourier_features(coords)
 print(encoded_coords.shape)  # Output shape will be (16, 128)
+ 

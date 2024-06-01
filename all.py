@@ -139,13 +139,14 @@ class ResidualBlock(nn.Module):
         return x + residual
 
 # Generator
+# Generator with Prompt Conditioning
 class Generator(nn.Module):
     """
-    Generator class for generating images from latent vectors.
+    Generator class for generating images from latent vectors and prompts.
     """
-    def __init__(self, latent_dim, hidden_dim, output_channels, num_layers):
+    def __init__(self, latent_dim, hidden_dim, output_channels, num_layers, clip_model):
         super(Generator, self).__init__()
-        self.mapping = MappingNetwork(latent_dim, hidden_dim, num_layers)
+        self.mapping = MappingNetwork(latent_dim + clip_model.visual.output_dim, hidden_dim, num_layers)
         self.style_layers = nn.ModuleList([
             StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
             StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True, attention=True),
@@ -161,9 +162,16 @@ class Generator(nn.Module):
             nn.Conv2d(output_channels, output_channels, 1),
             nn.Tanh()
         )
+        self.clip_model = clip_model
     
-    def forward(self, z):
-        w = self.mapping(z)
+    def forward(self, z, prompt):
+        # Encode the prompt using CLIP
+        prompt_features = self.clip_model.encode_text(clip.tokenize(prompt).to(z.device))
+        
+        # Concatenate the latent vector and prompt features
+        w = torch.cat([z, prompt_features], dim=1)
+        
+        w = self.mapping(w)
         w = w.unsqueeze(1).repeat(1, len(self.style_layers), 1)
         x = torch.randn(z.shape[0], self.style_layers[0].conv.in_channels, 4, 4).to(z.device)
         for i, style_layer in enumerate(self.style_layers):
