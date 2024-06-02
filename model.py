@@ -28,7 +28,7 @@ class NoiseInjection(nn.Module):
     
     def forward(self, x):
         noise = torch.randn_like(x)
-        return x + self.scale * noise
+        return x + self.scale * noise    
 
 
 # Adaptive Instance Normalization (AdaIN)
@@ -45,6 +45,8 @@ class AdaIN(nn.Module):
         style = self.style(w).unsqueeze(-1).unsqueeze(-1)
         gamma, beta = style.chunk(2, 1)
         return (1 + gamma) * self.norm(x) + beta
+
+
 
 # Self-Attention
 class SelfAttention(nn.Module):
