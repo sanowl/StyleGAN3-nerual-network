@@ -33,9 +33,9 @@ class Config:
 
 # Neural network components
 class MappingNetwork(nn.Module):
-    def __init__(self, latent_dim, hidden_dim, num_layers):
+    def __init__(self, input_dim, hidden_dim, num_layers):
         super(MappingNetwork, self).__init__()
-        layers = [nn.Linear(latent_dim + 512, hidden_dim), nn.ReLU()]  # Adjusted latent_dim to include prompt_embedding size
+        layers = [nn.Linear(input_dim, hidden_dim), nn.ReLU()]
         for _ in range(num_layers - 1):
             layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.ReLU()])
         self.mapping = nn.Sequential(*layers)
@@ -118,6 +118,7 @@ class StyleLayer(nn.Module):
 
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels, downsample=False):
+        
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, 3, padding=1))
         self.act = nn.LeakyReLU(0.2)
