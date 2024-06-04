@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import torchvision
 from transformers import CLIPTokenizer, CLIPModel
 import logging
+from torch.cuda.amp import GradScaler, autocast
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -30,6 +31,7 @@ class Config:
     style_mixing_weight = 2
     checkpoint_interval = 10
     early_stopping_patience = 10
+    accumulate_grad_batches = 4  # Gradient accumulation
 
 # Neural network components
 class MappingNetwork(nn.Module):
@@ -118,7 +120,6 @@ class StyleLayer(nn.Module):
 
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels, downsample=False):
-        
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, 3, padding=1))
         self.act = nn.LeakyReLU(0.2)
@@ -278,6 +279,7 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
     d_optim = optim.Adam(discriminator.parameters(), lr=Config.learning_rate, betas=(0.0, 0.99))
     
     g_ema = ExponentialMovingAverage(generator.parameters(), decay=Config.ema_decay)
+    scaler = GradScaler()  # For mixed precision training
     
     def d_loss_fn(real_scores, fake_scores):
         return F.relu(1.0 - real_scores).mean() + F.relu(1.0 + fake_scores).mean()
@@ -289,41 +291,47 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
     early_stopping_counter = 0
     
     for epoch in range(num_epochs):
-        for real_images, _ in dataloader:
+        for i, (real_images, _) in enumerate(dataloader):
             real_images = real_images.to(device)
             batch_size = real_images.shape[0]
             
             # Train discriminator
             d_optim.zero_grad()
             
-            z = torch.randn(batch_size, latent_dim).to(device)
-            prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
-            prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
-            
-            fake_images = generator(z, prompt_embedding)
-            real_scores = discriminator(real_images)
-            fake_scores = discriminator(fake_images.detach())
-            gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
-            d_loss = d_loss_fn(real_scores, fake_scores) + Config.gradient_penalty_weight * gradient_penalty
+            with autocast():  # Mixed precision training
+                z = torch.randn(batch_size, latent_dim).to(device)
+                prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+                prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
+                
+                fake_images = generator(z, prompt_embedding)
+                real_scores = discriminator(real_images)
+                fake_scores = discriminator(fake_images.detach())
+                gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
+                d_loss = d_loss_fn(real_scores, fake_scores) + Config.gradient_penalty_weight * gradient_penalty
 
-            d_loss.backward()
-            d_optim.step()
+            scaler.scale(d_loss).backward()
+            if (i + 1) % Config.accumulate_grad_batches == 0:
+                scaler.step(d_optim)
+                scaler.update()
             
             # Train generator
             g_optim.zero_grad()
             
-            z = torch.randn(batch_size, latent_dim).to(device)
-            prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
-            prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
-            
-            fake_images = generator(z, prompt_embedding)
-            fake_scores = discriminator(fake_images)
-            path_length_regularization = compute_path_length_regularization(generator, z, fake_images)
-            style_mixing_regularization = compute_style_mixing_regularization(generator, z)
-            g_loss = g_loss_fn(fake_scores) + Config.path_length_weight * path_length_regularization + Config.style_mixing_weight * style_mixing_regularization
+            with autocast():  # Mixed precision training
+                z = torch.randn(batch_size, latent_dim).to(device)
+                prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+                prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
+                
+                fake_images = generator(z, prompt_embedding)
+                fake_scores = discriminator(fake_images)
+                path_length_regularization = compute_path_length_regularization(generator, z, fake_images)
+                style_mixing_regularization = compute_style_mixing_regularization(generator, z)
+                g_loss = g_loss_fn(fake_scores) + Config.path_length_weight * path_length_regularization + Config.style_mixing_weight * style_mixing_regularization
 
-            g_loss.backward()
-            g_optim.step()
+            scaler.scale(g_loss).backward()
+            if (i + 1) % Config.accumulate_grad_batches == 0:
+                scaler.step(g_optim)
+                scaler.update()
             
             g_ema.update(generator.parameters())
         
