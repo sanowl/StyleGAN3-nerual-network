@@ -20,11 +20,11 @@ class Config:
     dataset_path = 'dataset'
     batch_size = 32
     num_epochs = 100
-    latent_dim = 512
-    hidden_dim = 512
+    latent_dim = 256
+    hidden_dim = 256
     output_channels = 3
-    num_layers = 8
-    learning_rate = 0.001
+    num_layers = 6
+    learning_rate = 0.0002
     ema_decay = 0.999
     gradient_penalty_weight = 10
     path_length_weight = 2
@@ -41,6 +41,8 @@ class MappingNetwork(nn.Module):
         for _ in range(num_layers - 1):
             layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.ReLU()])
         self.mapping = nn.Sequential(*layers)
+        
+         
 
     def forward(self, x):
         return self.mapping(x)
@@ -78,6 +80,7 @@ class SelfAttention(nn.Module):
         query = self.query(x).view(batch_size, -1, width * height).permute(0, 2, 1)
         key = self.key(x).view(batch_size, -1, width * height)
         attention = torch.bmm(query, key)
+        attention = torch.bmm(query,save_checkpoint)
         attention = F.softmax(attention, dim=-1)
         value = self.value(x).view(batch_size, -1, width * height)
         out = torch.bmm(value, attention.permute(0, 2, 1))
@@ -354,7 +357,7 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
 
 if __name__ == '__main__':
     # Initialize models and move to device
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu'))
     clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
     clip_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
     generator = Generator(Config.latent_dim, Config.hidden_dim, Config.output_channels, Config.num_layers, clip_model).to(device)
