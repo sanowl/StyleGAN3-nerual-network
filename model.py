@@ -108,6 +108,7 @@ class StyleLayer(nn.Module):
         if self.attention:
             x = self.attention(x)
         return x
+    
 
 # Residual Block
 class ResidualBlock(nn.Module):

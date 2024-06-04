@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "StyleGAN3-for-cat-images",
+			"path": "."
+		},
+		{
+			"name": "archive",
+			"path": "../../../Downloads/archive"
+		}
+	],
+	"settings": {}
+}
