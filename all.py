@@ -6,8 +6,8 @@ from torch.nn import functional as F
 import torchvision.transforms as transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
-from torchvision import datasets
 import matplotlib.pyplot as plt
+import torchvision
 from transformers import CLIPTokenizer, CLIPModel
 
 # Mapping Network
@@ -353,4 +353,4 @@ if __name__ == '__main__':
     ]
 
     # Train the GAN
-    train(generator, discriminator, dataloader, num_epochs=100, latent_dim=latent_dim, clip_model=clip_model, clip_tokenizer=clip_tokenizer, device=device, prompts=prompts)
+    train(generator, discriminator, dataloader, num_epochs=100, latent_dim=latent_dim, clip_model=clip_model, clip_tokenizer=clip_tokenizer, device=device, prompts=prompts) 
