@@ -1,4 +1,4 @@
-
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -6,15 +6,15 @@ from torch.nn import functional as F
 import torchvision.transforms as transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
+from torchvision import datasets
+import matplotlib.pyplot as plt
+from transformers import CLIPTokenizer, CLIPModel
 
 # Mapping Network
 class MappingNetwork(nn.Module):
-    """
-    Mapping Network class for mapping latent vectors to intermediate latent space.
-    """
     def __init__(self, latent_dim, hidden_dim, num_layers):
         super(MappingNetwork, self).__init__()
-        layers = [nn.Linear(latent_dim, hidden_dim), nn.ReLU()]
+        layers = [nn.Linear(latent_dim + 512, hidden_dim), nn.ReLU()]  # Concatenate latent vector with prompt embedding
         for _ in range(num_layers - 1):
             layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.ReLU()])
         self.mapping = nn.Sequential(*layers)
@@ -24,9 +24,6 @@ class MappingNetwork(nn.Module):
 
 # Noise Injection
 class NoiseInjection(nn.Module):
-    """
-    Noise Injection class for adding random noise to feature maps.
-    """
     def __init__(self):
         super(NoiseInjection, self).__init__()
         self.scale = nn.Parameter(torch.zeros(1))
@@ -37,9 +34,6 @@ class NoiseInjection(nn.Module):
 
 # Adaptive Instance Normalization (AdaIN)
 class AdaIN(nn.Module):
-    """
-    Adaptive Instance Normalization (AdaIN) class for applying style to feature maps.
-    """
     def __init__(self, latent_dim, channels):
         super(AdaIN, self).__init__()
         self.norm = nn.InstanceNorm2d(channels)
@@ -52,9 +46,6 @@ class AdaIN(nn.Module):
 
 # Self-Attention
 class SelfAttention(nn.Module):
-    """
-    Self-Attention class for applying self-attention to feature maps.
-    """
     def __init__(self, in_channels):
         super(SelfAttention, self).__init__()
         self.query = nn.Conv2d(in_channels, in_channels // 8, 1)
@@ -75,9 +66,6 @@ class SelfAttention(nn.Module):
 
 # Blur
 class Blur(nn.Module):
-    """
-    Blur class for applying blurring to feature maps.
-    """
     def __init__(self, channels):
         super(Blur, self).__init__()
         kernel = torch.tensor([[1, 2, 1], [2, 4, 2], [1, 2, 1]], dtype=torch.float32)
@@ -89,9 +77,6 @@ class Blur(nn.Module):
 
 # Style Layer
 class StyleLayer(nn.Module):
-    """
-    Style Layer class for applying style and upsampling/downsampling to feature maps.
-    """
     def __init__(self, latent_dim, in_channels, out_channels, kernel_size=3, upsample=False, attention=False):
         super(StyleLayer, self).__init__()
         self.noise_injection = NoiseInjection()
@@ -117,9 +102,6 @@ class StyleLayer(nn.Module):
 
 # Residual Block
 class ResidualBlock(nn.Module):
-    """
-    Residual Block class for applying residual connections to feature maps.
-    """
     def __init__(self, in_channels, out_channels, downsample=False):
         super(ResidualBlock, self).__init__()
         self.conv1 = nn.utils.spectral_norm(nn.Conv2d(in_channels, out_channels, 3, padding=1))
@@ -138,15 +120,11 @@ class ResidualBlock(nn.Module):
             residual = self.downsample_layer(residual)
         return x + residual
 
-# Generator
 # Generator with Prompt Conditioning
 class Generator(nn.Module):
-    """
-    Generator class for generating images from latent vectors and prompts.
-    """
     def __init__(self, latent_dim, hidden_dim, output_channels, num_layers, clip_model):
         super(Generator, self).__init__()
-        self.mapping = MappingNetwork(latent_dim + clip_model.visual.output_dim, hidden_dim, num_layers)
+        self.mapping = MappingNetwork(latent_dim + 512, hidden_dim, num_layers)  # Concatenate latent vector with prompt embedding
         self.style_layers = nn.ModuleList([
             StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
             StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True, attention=True),
@@ -164,14 +142,9 @@ class Generator(nn.Module):
         )
         self.clip_model = clip_model
     
-    def forward(self, z, prompt):
-        # Encode the prompt using CLIP
-        prompt_features = self.clip_model.encode_text(clip.tokenize(prompt).to(z.device))
-        
-        # Concatenate the latent vector and prompt features
-        w = torch.cat([z, prompt_features], dim=1)
-        
-        w = self.mapping(w)
+    def forward(self, z, prompt_embedding):
+        z = torch.cat((z, prompt_embedding), dim=1)  # Concatenate latent vector with prompt embedding
+        w = self.mapping(z)
         w = w.unsqueeze(1).repeat(1, len(self.style_layers), 1)
         x = torch.randn(z.shape[0], self.style_layers[0].conv.in_channels, 4, 4).to(z.device)
         for i, style_layer in enumerate(self.style_layers):
@@ -181,9 +154,6 @@ class Generator(nn.Module):
 
 # Discriminator
 class Discriminator(nn.Module):
-    """
-    Discriminator class for determining the realness of generated images.
-    """
     def __init__(self, input_channels, hidden_dim, num_layers):
         super(Discriminator, self).__init__()
         self.layers = nn.ModuleList([
@@ -208,17 +178,89 @@ class Discriminator(nn.Module):
     def forward(self, x):
         return self.model(x)
 
-# Training loop with gradient penalty, path length regularization, and style mixing regularization
-def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
-    """
-    Training loop for the GAN.
-    """
+# Exponential Moving Average (EMA) class for model parameters
+class ExponentialMovingAverage:
+    def __init__(self, parameters, decay):
+        self.parameters = list(parameters)
+        self.decay = decay
+        self.shadow_params = [p.clone().detach() for p in self.parameters]
+
+    def update(self, parameters):
+        for shadow_param, param in zip(self.shadow_params, parameters):
+            shadow_param.data = (1.0 - self.decay) * param.data + self.decay * shadow_param.data
+
+    def apply(self, parameters):
+        for shadow_param, param in zip(self.shadow_params, parameters):
+            param.data.copy_(shadow_param.data)
+
+# Gradient Penalty for Wasserstein GAN with Gradient Penalty (WGAN-GP)
+def compute_gradient_penalty(discriminator, real_samples, fake_samples, device):
+    alpha = torch.randn(real_samples.size(0), 1, 1, 1).to(device)
+    interpolates = (alpha * real_samples + (1 - alpha) * fake_samples).requires_grad_(True)
+    d_interpolates = discriminator(interpolates)
+    fake = torch.ones(d_interpolates.size()).to(device)
+    gradients = torch.autograd.grad(
+        outputs=d_interpolates,
+        inputs=interpolates,
+        grad_outputs=fake,
+        create_graph=True,
+        retain_graph=True,
+        only_inputs=True
+    )[0]
+    gradients = gradients.view(gradients.size(0), -1)
+    gradient_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean()
+    return gradient_penalty
+
+# Placeholder for path length regularization computation
+def compute_path_length_regularization(generator, z, fake_images):
+    return 0.0
+
+# Placeholder for style mixing regularization computation
+def compute_style_mixing_regularization(generator, z):
+    return 0.0
+
+# Check if the dataset path exists
+dataset_path = 'dataset'
+if not os.path.exists(dataset_path):
+    raise FileNotFoundError(f"Dataset path '{dataset_path}' does not exist.")
+
+# Verify the directory structure
+for root, dirs, files in os.walk(dataset_path):
+    print(f"Checking directory: {root}")
+    if not dirs and not files:
+        raise ValueError(f"No subdirectories or files found in the dataset path '{dataset_path}'. Ensure the directory structure follows the expected format for ImageFolder.")
+    for dir_name in dirs:
+        print(f"Found subdirectory: {dir_name}")
+    for file_name in files:
+        print(f"Found file: {file_name}")
+
+# Data loading and preprocessing
+transform = transforms.Compose([
+    transforms.RandomHorizontalFlip(),
+    transforms.CenterCrop(128),
+    transforms.ToTensor(),
+    transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+])
+try:
+    dataset = datasets.ImageFolder(dataset_path, transform=transform)
+    dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4, pin_memory=True)
+    print(f"Loaded dataset with {len(dataset)} images.")
+except Exception as e:
+    raise RuntimeError(f"Error loading dataset: {e}")
+
+def extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device):
+    with torch.no_grad():
+        inputs = clip_tokenizer(prompt, return_tensors="pt", padding=True, truncation=True).to(device)
+        text_features = clip_model.get_text_features(**inputs)
+        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+    return text_features
+
+def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_model, clip_tokenizer, device, prompts):
     g_optim = optim.Adam(generator.parameters(), lr=0.001, betas=(0.0, 0.99))
     d_optim = optim.Adam(discriminator.parameters(), lr=0.001, betas=(0.0, 0.99))
     
     g_ema = ExponentialMovingAverage(generator.parameters(), decay=0.999)
     
-    # Use hinge loss for improved training stability
     def d_loss_fn(real_scores, fake_scores):
         return F.relu(1.0 - real_scores).mean() + F.relu(1.0 + fake_scores).mean()
     
@@ -226,7 +268,7 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
         return -fake_scores.mean()
     
     for epoch in range(num_epochs):
-        for real_images in dataloader:
+        for real_images, _ in dataloader:
             real_images = real_images.to(device)
             batch_size = real_images.shape[0]
             
@@ -234,7 +276,9 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
             d_optim.zero_grad()
             
             z = torch.randn(batch_size, latent_dim).to(device)
-            fake_images = generator(z)
+            prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+            prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device)
+            fake_images = generator(z, prompt_embedding)
             
             real_scores = discriminator(real_images)
             fake_scores = discriminator(fake_images.detach())
@@ -249,7 +293,9 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
             g_optim.zero_grad()
             
             z = torch.randn(batch_size, latent_dim).to(device)
-            fake_images = generator(z)
+            prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+            prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device)
+            fake_images = generator(z, prompt_embedding)
             
             fake_scores = discriminator(fake_images)
             
@@ -262,81 +308,49 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, device):
             
             g_ema.update(generator.parameters())
         
-        # Evaluate and save checkpoints
-        # ...
+        print(f"Epoch {epoch+1}/{num_epochs}, D Loss: {d_loss.item()}, G Loss: {g_loss.item()}")
+        
+        # Save model checkpoints
+        if (epoch + 1) % 10 == 0:
+            torch.save(generator.state_dict(), f"generator_epoch_{epoch+1}.pth")
+            torch.save(discriminator.state_dict(), f"discriminator_epoch_{epoch+1}.pth")
+        
+        # Save generated images for inspection
+        if (epoch + 1) % 10 == 0:
+            with torch.no_grad():
+                z = torch.randn(16, latent_dim).to(device)
+                prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+                prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device)
+                fake_images = generator(z, prompt_embedding)
+                fake_images = (fake_images + 1) / 2  # Denormalize
+                grid = torchvision.utils.make_grid(fake_images, nrow=4)
+                plt.imshow(grid.permute(1, 2, 0).cpu().numpy())
+                plt.title(f"Epoch {epoch+1} - Prompt: {prompt}")
+                plt.savefig(f"generated_images_epoch_{epoch+1}.png")
+                plt.close()
 
-# Compute gradient penalty for WGAN-GP
-def compute_gradient_penalty(discriminator, real_images, fake_images, device):
-    """
-    Computes the gradient penalty for WGAN-GP.
-    """
-    alpha = torch.rand(real_images.size(0), 1, 1, 1).to(device)
-    interpolated = (alpha * real_images + (1 - alpha) * fake_images).requires_grad_(True)
-    
-    interpolated_scores = discriminator(interpolated)
-    
-    gradients = torch.autograd.grad(
-        outputs=interpolated_scores,
-        inputs=interpolated,
-        grad_outputs=torch.ones(interpolated_scores.size()).to(device),
-        create_graph=True,
-        retain_graph=True,
-        only_inputs=True
-    )[0]
-    
-    gradients = gradients.view(gradients.size(0), -1)
-    gradient_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean()
-    
-    return gradient_penalty
+if __name__ == '__main__':
+    # Initialize models and move to device
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    latent_dim = 512
+    clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
+    clip_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
+    generator = Generator(latent_dim, hidden_dim=512, output_channels=3, num_layers=8, clip_model=clip_model).to(device)
+    discriminator = Discriminator(input_channels=3, hidden_dim=64, num_layers=4).to(device)
 
-# Compute path length regularization
-def compute_path_length_regularization(generator, z, fake_images):
-    """
-    Computes the path length regularization term for the generator.
-    """
-    path_lengths = torch.sqrt((fake_images ** 2).sum([2, 3])).mean(1)
-    return ((path_lengths - path_lengths.mean()) ** 2).mean()
+    # Define prompts for conditioning
+    prompts = [
+        "a cat wearing sunglasses",
+        "a cat wearing a hat",
+        "a cat wearing a bowtie",
+        "a cat wearing a scarf",
+        "a cat wearing a shirt",
+        "a cat wearing a sweater",
+        "a cat wearing a jacket",
+        "a cat wearing a dress",
+        "a cat wearing a suit",
+        "a cat wearing a costume"
+    ]
 
-# Compute style mixing regularization
-def compute_style_mixing_regularization(generator, z):
-    """
-    Computes the style mixing regularization term for the generator.
-    """
-    z2 = torch.randn_like(z)
-    fake_images2 = generator(z2)
-    mixed_fake_images = 0.5 * fake_images + 0.5 * fake_images2
-    return ((mixed_fake_images - mixed_fake_images.mean()) ** 2).mean()
-
-class ExponentialMovingAverage:
-    """
-    Exponential Moving Average (EMA) class for model parameters.
-    """
-    def __init__(self, parameters, decay):
-        self.parameters = list(parameters)
-        self.decay = decay
-        self.shadow_params = [p.clone().detach() for p in self.parameters]
-
-    def update(self, parameters):
-        for shadow_param, param in zip(self.shadow_params, parameters):
-            shadow_param.data = self.decay * shadow_param.data + (1.0 - self.decay) * param.data
-
-# Data loading and preprocessing
-transform = transforms.Compose([
-    transforms.RandomHorizontalFlip(),
-    transforms.CenterCrop(128),
-    transforms.ToTensor(),
-    transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
-])
-
-dataset = ImageFolder('path_to_your_dataset', transform=transform)
-dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4, pin_memory=True)
-
-# Initialize models and move to device
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-latent_dim = 512
-generator = Generator(latent_dim, hidden_dim=512, output_channels=3, num_layers=8).to(device)
-discriminator = Discriminator(input_channels=3, hidden_dim=64, num_layers=4).to(device)
-
-# Train the GAN
-train(generator, discriminator, dataloader, num_epochs=100, latent_dim=latent_dim, device=device)
-
+    # Train the GAN
+    train(generator, discriminator, dataloader, num_epochs=100, latent_dim=latent_dim, clip_model=clip_model, clip_tokenizer=clip_tokenizer, device=device, prompts=prompts)
