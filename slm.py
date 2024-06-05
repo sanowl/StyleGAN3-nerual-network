@@ -10,12 +10,10 @@ import matplotlib.pyplot as plt
 import torchvision
 from transformers import CLIPTokenizer, CLIPModel
 import logging
-from torch.cuda.amp import GradScaler, autocast
 import json
-from torchvision.models import inception_v3
-from scipy.linalg import sqrtm
-import numpy as np
-
+import gc
+import wandb
+from torch.cuda.amp import GradScaler, autocast
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -27,6 +25,9 @@ def load_config(config_file):
     return config
 
 config = load_config('config.json')
+
+# Initialize Weights & Biases
+wandb.init(project="stylegan3-cat-images", config=config)
 
 # Neural network components
 class MappingNetwork(nn.Module):
@@ -139,16 +140,10 @@ class Generator(nn.Module):
         self.style_layers = nn.ModuleList([
             StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
             StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True, attention=True),
-            StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
-            StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
-            StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
-            StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True, attention=True),
-            StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
-            StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True),
-            StyleLayer(hidden_dim, hidden_dim, output_channels, upsample=False)
+            StyleLayer(hidden_dim, hidden_dim, hidden_dim, upsample=True)
         ])
         self.to_rgb = nn.Sequential(
-            nn.Conv2d(output_channels, output_channels, 1),
+            nn.Conv2d(hidden_dim, output_channels, 1),
             nn.Tanh()
         )
         self.clip_model = clip_model
@@ -168,7 +163,7 @@ class Discriminator(nn.Module):
     def __init__(self, input_channels, hidden_dim, num_layers):
         super(Discriminator, self).__init__()
         self.layers = nn.ModuleList([
-            nn.utils.spectral_norm(nn.Conv2d(input_channels, hidden_dim, 4, stride=2, padding=1)),
+            nn.utils.spectral_norm(nn.Conv2d(input_channels, hidden_dim, 3, stride=1, padding=1)),  # Adjusted kernel size
             nn.LeakyReLU(0.2)
         ])
 
@@ -205,6 +200,8 @@ class ExponentialMovingAverage:
 
 def compute_gradient_penalty(discriminator, real_samples, fake_samples, device):
     alpha = torch.randn(real_samples.size(0), 1, 1, 1, device=device)
+    # Ensure sizes match for gradient penalty
+    fake_samples = F.interpolate(fake_samples, size=real_samples.shape[2:])
     interpolates = (alpha * real_samples + (1 - alpha) * fake_samples).requires_grad_(True)
     d_interpolates = discriminator(interpolates)
     fake = torch.ones(d_interpolates.size(), device=device)
@@ -232,7 +229,7 @@ def load_dataset(dataset_path, batch_size):
 
     transform = transforms.Compose([
         transforms.RandomHorizontalFlip(),
-        transforms.CenterCrop(128),
+        transforms.CenterCrop(64),  # Reduced image size
         transforms.ToTensor(),
         transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
     ])
@@ -268,47 +265,22 @@ def save_generated_images(generator, latent_dim, clip_model, clip_tokenizer, dev
         plt.title(f"Epoch {epoch+1} - Prompt: {prompt}")
         plt.savefig(f"generated_images_epoch_{epoch+1}.png")
         plt.close()
-
-# Calculate FID
-def calculate_fid(real_activations, fake_activations):
-    mu1, sigma1 = real_activations.mean(axis=0), np.cov(real_activations, rowvar=False)
-    mu2, sigma2 = fake_activations.mean(axis=0), np.cov(fake_activations, rowvar=False)
-    ssdiff = np.sum((mu1 - mu2) ** 2.0)
-    covmean = sqrtm(sigma1.dot(sigma2))
-    if np.iscomplexobj(covmean):
-        covmean = covmean.real
-    fid = ssdiff + np.trace(sigma1 + sigma2 - 2.0 * covmean)
-    return fid
-
-# Extract activations from Inception model
-def get_activations(model, dataloader, device):
-    model.eval()
-    activations = []
-    with torch.no_grad():
-        for images, _ in dataloader:
-            images = images.to(device)
-            pred = model(images)[0]
-            activations.append(pred.cpu().numpy())
-    activations = np.concatenate(activations, axis=0)
-    return activations
+        wandb.log({"generated_images": wandb.Image(grid.permute(1, 2, 0).cpu().numpy(), caption=f"Epoch {epoch+1} - Prompt: {prompt}")})
 
 def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_model, clip_tokenizer, device, prompts):
     g_optim = optim.Adam(generator.parameters(), lr=config['learning_rate'], betas=(0.0, 0.99))
     d_optim = optim.Adam(discriminator.parameters(), lr=config['learning_rate'], betas=(0.0, 0.99))
     
+    scaler = GradScaler(enabled=(device.type == 'cuda'))  # For mixed precision training
     g_ema = ExponentialMovingAverage(generator.parameters(), decay=config['ema_decay'])
-    scaler = GradScaler()  # For mixed precision training
-
-    inception = inception_v3(pretrained=True, transform_input=False).to(device)
-    inception.eval()
-
+    
     def d_loss_fn(real_scores, fake_scores):
         return F.relu(1.0 - real_scores).mean() + F.relu(1.0 + fake_scores).mean()
     
     def g_loss_fn(fake_scores):
         return -fake_scores.mean()
 
-    best_fid = float('inf')
+    best_g_loss = float('inf')
     early_stopping_counter = 0
     
     for epoch in range(num_epochs):
@@ -319,12 +291,13 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
             # Train discriminator
             d_optim.zero_grad()
             
-            with autocast():  # Mixed precision training
-                z = torch.randn(batch_size, latent_dim).to(device)
+            with autocast(enabled=(device.type == 'cuda')):  # Mixed precision training
+                z = torch.randn(batch_size, latent_dim, device=device)
                 prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
                 prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
                 
                 fake_images = generator(z, prompt_embedding)
+                fake_images = F.interpolate(fake_images, size=real_images.shape[2:])  # Ensure sizes match for gradient penalty
                 real_scores = discriminator(real_images)
                 fake_scores = discriminator(fake_images.detach())
                 gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
@@ -338,8 +311,8 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
             # Train generator
             g_optim.zero_grad()
             
-            with autocast():  # Mixed precision training
-                z = torch.randn(batch_size, latent_dim).to(device)
+            with autocast(enabled=(device.type == 'cuda')):  # Mixed precision training
+                z = torch.randn(batch_size, latent_dim, device=device)
                 prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
                 prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
                 
@@ -356,29 +329,32 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
             
             g_ema.update(generator.parameters())
 
-        logging.info(f"Epoch {epoch+1}/{num_epochs}, D Loss: {d_loss.item()}, G Loss: {g_loss.item()}")
+            # Log losses to wandb
+            wandb.log({
+                "d_loss": d_loss.item(),
+                "g_loss": g_loss.item(),
+                "epoch": epoch + 1
+            })
+
+            # Clear variables
+            del real_images, z, prompt_embedding, fake_images, real_scores, fake_scores, gradient_penalty, d_loss, g_loss
+            torch.cuda.empty_cache()  # Only if using CUDA
+            gc.collect()  # Collect garbage
         
+        logging.info(f"Epoch {epoch+1}/{num_epochs}, D Loss: {d_loss.item()}, G Loss: {g_loss.item()}")
 
         # Checkpointing
         if (epoch + 1) % config['checkpoint_interval'] == 0:
             save_checkpoint(generator, discriminator, epoch)
             save_generated_images(generator, latent_dim, clip_model, clip_tokenizer, device, prompts, epoch)
 
-        # Calculate FID
-        real_activations = get_activations(inception, dataloader, device)
-        fake_images = generator(torch.randn(len(real_activations), latent_dim).to(device), extract_prompt_embedding(prompts[0], clip_model, clip_tokenizer, device, len(real_activations)).to(device))
-        fake_activations = get_activations(inception, fake_images, device)
-        fid = calculate_fid(real_activations, fake_activations)
-        logging.info(f"FID: {fid}")
-        wandb.log({"FID": fid})
-
         # Early Stopping
-        if fid < best_fid:
-            best_fid = fid
+        if g_loss.item() < best_g_loss:
+            best_g_loss = g_loss.item()
             early_stopping_counter = 0
         else:
             early_stopping_counter += 1
-            if early_stopping_counter >= config['early_stopping_patience']:
+            if (early_stopping_counter >= config['early_stopping_patience']):
                 logging.info(f"Early stopping at epoch {epoch+1}")
                 return
 

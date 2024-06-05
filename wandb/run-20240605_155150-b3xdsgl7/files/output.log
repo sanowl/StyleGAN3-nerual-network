@@ -1,0 +1,34 @@
+
+2024-06-05 15:52:01,571 - INFO - Loaded dataset with 19994 images.
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x10f6896c0>
+Traceback (most recent call last):
+  File "/opt/anaconda3/envs/pot/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 1479, in __del__
+    self._shutdown_workers()
+  File "/opt/anaconda3/envs/pot/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 1443, in _shutdown_workers
+    w.join(timeout=_utils.MP_STATUS_CHECK_INTERVAL)
+  File "/opt/anaconda3/envs/pot/lib/python3.12/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/pot/lib/python3.12/multiprocessing/popen_fork.py", line 40, in wait
+    if not wait([self.sentinel], timeout):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/pot/lib/python3.12/multiprocessing/connection.py", line 1135, in wait
+    ready = selector.select(timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/pot/lib/python3.12/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt:
+Traceback (most recent call last):
+  File "/Users/san./Documents/GitHub/StyleGAN3-for-cat-images/slm.py", line 387, in <module>
+    train(generator, discriminator, dataloader, config['num_epochs'], config['latent_dim'], clip_model, clip_tokenizer, device, prompts)
+  File "/Users/san./Documents/GitHub/StyleGAN3-for-cat-images/slm.py", line 317, in train
+    prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/san./Documents/GitHub/StyleGAN3-for-cat-images/slm.py", line 246, in extract_prompt_embedding
+    inputs = clip_tokenizer(prompt, return_tensors="pt", padding=True, truncation=True).to(device)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/pot/lib/python3.12/site-packages/transformers/tokenization_utils_base.py", line 800, in to
+    self.data = {k: v.to(device=device) for k, v in self.data.items()}
+                    ^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

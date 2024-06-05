@@ -1,0 +1,48 @@
+{
+    "os": "macOS-14.5-arm64-arm-64bit",
+    "python": "3.12.2",
+    "heartbeatAt": "2024-06-05T12:45:35.208503",
+    "startedAt": "2024-06-05T12:45:33.960300",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "git": {
+        "remote": "https://github.com/sanowl/StyleGAN3-nerual-network.git",
+        "commit": "794c45b035cac2b1508c8444d007167244d9ca0c"
+    },
+    "email": "99511815+sanowl@users.noreply.github.com",
+    "root": "/Users/san./Documents/GitHub/StyleGAN3-for-cat-images",
+    "host": "Sans-MacBook-Pro.local",
+    "username": "san.",
+    "executable": "/opt/anaconda3/envs/pot/bin/python",
+    "cpu_count": 10,
+    "cpu_count_logical": 10,
+    "cpu_freq": {
+        "current": 3228,
+        "min": 600,
+        "max": 3228
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3228,
+            "min": 600,
+            "max": 3228
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 365.7021484375,
+            "used": 300.22989654541016
+        }
+    },
+    "gpuapple": {
+        "type": "Apple M1 Pro",
+        "vendor": "sppci_vendor_Apple"
+    },
+    "memory": {
+        "total": 16.0
+    }
+}

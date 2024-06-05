@@ -1,6 +1,6 @@
 {
   "dataset_path": "dataset",
-  "batch_size": 32,
+  "batch_size": 8,
   "num_epochs": 100,
   "latent_dim": 256,
   "hidden_dim": 256,

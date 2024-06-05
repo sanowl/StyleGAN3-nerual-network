@@ -1,0 +1,12 @@
+
+2024-06-05 15:45:20,571 - INFO - Loaded dataset with 19994 images.
+Traceback (most recent call last):
+  File "/Users/san./Documents/GitHub/StyleGAN3-for-cat-images/slm.py", line 386, in <module>
+    train(generator, discriminator, dataloader, config['num_epochs'], config['latent_dim'], clip_model, clip_tokenizer, device, prompts)
+  File "/Users/san./Documents/GitHub/StyleGAN3-for-cat-images/slm.py", line 302, in train
+    gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/san./Documents/GitHub/StyleGAN3-for-cat-images/slm.py", line 205, in compute_gradient_penalty
+    interpolates = (alpha * real_samples + (1 - alpha) * fake_samples).requires_grad_(True)
+                    ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RuntimeError: The size of tensor a (64) must match the size of tensor b (32) at non-singleton dimension 3

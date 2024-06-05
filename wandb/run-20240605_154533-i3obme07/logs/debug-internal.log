@@ -1,0 +1,856 @@
+2024-06-05 15:45:33,968 INFO    StreamThr :3101 [internal.py:wandb_internal():85] W&B internal server running at pid: 3101, started at: 2024-06-05 15:45:33.967839
+2024-06-05 15:45:33,969 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status
+2024-06-05 15:45:33,973 INFO    WriterThread:3101 [datastore.py:open_for_write():87] open: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/run-i3obme07.wandb
+2024-06-05 15:45:33,973 DEBUG   SenderThread:3101 [sender.py:send():378] send: header
+2024-06-05 15:45:34,012 DEBUG   SenderThread:3101 [sender.py:send():378] send: run
+2024-06-05 15:45:34,578 INFO    SenderThread:3101 [dir_watcher.py:__init__():211] watching files in: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files
+2024-06-05 15:45:34,578 INFO    SenderThread:3101 [sender.py:_start_run_threads():1123] run started: i3obme07 with start time 1717591533.96884
+2024-06-05 15:45:34,585 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: check_version
+2024-06-05 15:45:34,585 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: check_version
+2024-06-05 15:45:34,660 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:34,843 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: run_start
+2024-06-05 15:45:34,845 DEBUG   HandlerThread:3101 [system_info.py:__init__():26] System info init
+2024-06-05 15:45:34,845 DEBUG   HandlerThread:3101 [system_info.py:__init__():41] System info init done
+2024-06-05 15:45:34,845 INFO    HandlerThread:3101 [system_monitor.py:start():194] Starting system monitor
+2024-06-05 15:45:34,845 INFO    SystemMonitor:3101 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-05 15:45:34,846 INFO    HandlerThread:3101 [system_monitor.py:probe():214] Collecting system info
+2024-06-05 15:45:34,846 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started cpu monitoring
+2024-06-05 15:45:34,856 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started disk monitoring
+2024-06-05 15:45:34,858 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started gpuapple monitoring
+2024-06-05 15:45:34,859 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started memory monitoring
+2024-06-05 15:45:34,859 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started network monitoring
+2024-06-05 15:45:35,208 DEBUG   HandlerThread:3101 [system_info.py:probe():150] Probing system
+2024-06-05 15:45:35,209 DEBUG   HandlerThread:3101 [system_info.py:_probe_git():135] Probing git
+2024-06-05 15:45:35,236 DEBUG   HandlerThread:3101 [system_info.py:_probe_git():143] Probing git done
+2024-06-05 15:45:35,236 DEBUG   HandlerThread:3101 [system_info.py:probe():198] Probing system done
+2024-06-05 15:45:35,236 DEBUG   HandlerThread:3101 [system_monitor.py:probe():223] {'os': 'macOS-14.5-arm64-arm-64bit', 'python': '3.12.2', 'heartbeatAt': '2024-06-05T12:45:35.208503', 'startedAt': '2024-06-05T12:45:33.960300', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '<python with no main file>', 'codePathLocal': None, 'git': {'remote': 'https://github.com/sanowl/StyleGAN3-nerual-network.git', 'commit': '794c45b035cac2b1508c8444d007167244d9ca0c'}, 'email': '99511815+sanowl@users.noreply.github.com', 'root': '/Users/san./Documents/GitHub/StyleGAN3-for-cat-images', 'host': 'Sans-MacBook-Pro.local', 'username': 'san.', 'executable': '/opt/anaconda3/envs/pot/bin/python', 'cpu_count': 10, 'cpu_count_logical': 10, 'cpu_freq': {'current': 3228, 'min': 600, 'max': 3228}, 'cpu_freq_per_core': [{'current': 3228, 'min': 600, 'max': 3228}], 'disk': {'/': {'total': 365.7021484375, 'used': 300.22989654541016}}, 'gpuapple': {'type': 'Apple M1 Pro', 'vendor': 'sppci_vendor_Apple'}, 'memory': {'total': 16.0}}
+2024-06-05 15:45:35,236 INFO    HandlerThread:3101 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-05 15:45:35,236 INFO    HandlerThread:3101 [system_monitor.py:probe():227] Publishing system info
+2024-06-05 15:45:35,236 DEBUG   HandlerThread:3101 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-06-05 15:45:35,584 INFO    Thread-38 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/conda-environment.yaml
+2024-06-05 15:45:35,940 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:39,679 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:40,961 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:41,324 INFO    Thread-12 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/config.yaml
+2024-06-05 15:45:41,516 DEBUG   HandlerThread:3101 [system_info.py:_save_conda():222] Saving conda packages done
+2024-06-05 15:45:41,517 INFO    HandlerThread:3101 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-05 15:45:41,517 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:41,518 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: keepalive
+2024-06-05 15:45:41,518 DEBUG   SenderThread:3101 [sender.py:send():378] send: files
+2024-06-05 15:45:41,518 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-metadata.json with policy now
+2024-06-05 15:45:41,607 INFO    Thread-38 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/conda-environment.yaml
+2024-06-05 15:45:41,608 INFO    Thread-38 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/wandb-metadata.json
+2024-06-05 15:45:41,685 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: python_packages
+2024-06-05 15:45:41,685 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: python_packages
+2024-06-05 15:45:41,686 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:45:41,686 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:45:42,166 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:45:42,541 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /var/folders/y8/9mpx0pq52897sg562ch699100000gn/T/tmpo8ad91z9wandb/qw1p7s9j-wandb-metadata.json
+2024-06-05 15:45:42,613 INFO    Thread-38 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/requirements.txt
+2024-06-05 15:45:44,697 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:44,721 INFO    StreamThr :3101 [internal.py:wandb_internal():85] W&B internal server running at pid: 3101, started at: 2024-06-05 15:45:44.720665
+2024-06-05 15:45:44,722 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status
+2024-06-05 15:45:44,725 INFO    WriterThread:3101 [datastore.py:open_for_write():87] open: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/run-lpxx48jw.wandb
+2024-06-05 15:45:44,725 DEBUG   SenderThread:3101 [sender.py:send():378] send: header
+2024-06-05 15:45:44,750 DEBUG   SenderThread:3101 [sender.py:send():378] send: run
+2024-06-05 15:45:45,174 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:45,607 INFO    SenderThread:3101 [dir_watcher.py:__init__():211] watching files in: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files
+2024-06-05 15:45:45,607 INFO    SenderThread:3101 [sender.py:_start_run_threads():1123] run started: lpxx48jw with start time 1717591544.722641
+2024-06-05 15:45:45,620 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: check_version
+2024-06-05 15:45:45,621 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: check_version
+2024-06-05 15:45:45,852 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: run_start
+2024-06-05 15:45:45,853 DEBUG   HandlerThread:3101 [system_info.py:__init__():26] System info init
+2024-06-05 15:45:45,853 DEBUG   HandlerThread:3101 [system_info.py:__init__():41] System info init done
+2024-06-05 15:45:45,853 INFO    HandlerThread:3101 [system_monitor.py:start():194] Starting system monitor
+2024-06-05 15:45:45,854 INFO    SystemMonitor:3101 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-05 15:45:45,854 INFO    HandlerThread:3101 [system_monitor.py:probe():214] Collecting system info
+2024-06-05 15:45:45,860 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started cpu monitoring
+2024-06-05 15:45:45,865 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started disk monitoring
+2024-06-05 15:45:45,867 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started gpuapple monitoring
+2024-06-05 15:45:45,868 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started memory monitoring
+2024-06-05 15:45:45,869 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started network monitoring
+2024-06-05 15:45:46,177 DEBUG   HandlerThread:3101 [system_info.py:probe():150] Probing system
+2024-06-05 15:45:46,178 DEBUG   HandlerThread:3101 [system_info.py:_probe_git():135] Probing git
+2024-06-05 15:45:46,206 DEBUG   HandlerThread:3101 [system_info.py:_probe_git():143] Probing git done
+2024-06-05 15:45:46,206 DEBUG   HandlerThread:3101 [system_info.py:probe():198] Probing system done
+2024-06-05 15:45:46,206 DEBUG   HandlerThread:3101 [system_monitor.py:probe():223] {'os': 'macOS-14.5-arm64-arm-64bit', 'python': '3.12.2', 'heartbeatAt': '2024-06-05T12:45:46.177914', 'startedAt': '2024-06-05T12:45:44.717298', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '<python with no main file>', 'codePathLocal': None, 'git': {'remote': 'https://github.com/sanowl/StyleGAN3-nerual-network.git', 'commit': '794c45b035cac2b1508c8444d007167244d9ca0c'}, 'email': '99511815+sanowl@users.noreply.github.com', 'root': '/Users/san./Documents/GitHub/StyleGAN3-for-cat-images', 'host': 'Sans-MacBook-Pro.local', 'username': 'san.', 'executable': '/opt/anaconda3/envs/pot/bin/python', 'cpu_count': 10, 'cpu_count_logical': 10, 'cpu_freq': {'current': 3228, 'min': 600, 'max': 3228}, 'cpu_freq_per_core': [{'current': 3228, 'min': 600, 'max': 3228}], 'disk': {'/': {'total': 365.7021484375, 'used': 299.23144149780273}}, 'gpuapple': {'type': 'Apple M1 Pro', 'vendor': 'sppci_vendor_Apple'}, 'memory': {'total': 16.0}}
+2024-06-05 15:45:46,206 INFO    HandlerThread:3101 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-05 15:45:46,206 INFO    HandlerThread:3101 [system_monitor.py:probe():227] Publishing system info
+2024-06-05 15:45:46,206 DEBUG   HandlerThread:3101 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-06-05 15:45:46,225 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:46,234 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:45:46,234 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:45:46,612 INFO    Thread-51 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/conda-environment.yaml
+2024-06-05 15:45:47,668 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:45:47,668 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:45:50,195 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:50,496 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:51,958 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:52,425 DEBUG   HandlerThread:3101 [system_info.py:_save_conda():222] Saving conda packages done
+2024-06-05 15:45:52,426 INFO    HandlerThread:3101 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-05 15:45:52,426 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:52,426 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: keepalive
+2024-06-05 15:45:52,426 DEBUG   SenderThread:3101 [sender.py:send():378] send: files
+2024-06-05 15:45:52,426 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-metadata.json with policy now
+2024-06-05 15:45:52,561 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: python_packages
+2024-06-05 15:45:52,562 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:45:52,562 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: python_packages
+2024-06-05 15:45:52,564 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:45:52,633 INFO    Thread-51 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/conda-environment.yaml
+2024-06-05 15:45:52,633 INFO    Thread-51 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/requirements.txt
+2024-06-05 15:45:52,633 INFO    Thread-51 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/wandb-metadata.json
+2024-06-05 15:45:52,937 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:45:53,362 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /var/folders/y8/9mpx0pq52897sg562ch699100000gn/T/tmphqitvdmtwandb/xu58e0g7-wandb-metadata.json
+2024-06-05 15:45:54,941 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:55,213 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:55,522 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:55,591 INFO    StreamThr :3101 [internal.py:wandb_internal():85] W&B internal server running at pid: 3101, started at: 2024-06-05 15:45:55.590298
+2024-06-05 15:45:55,591 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status
+2024-06-05 15:45:55,592 INFO    WriterThread:3101 [datastore.py:open_for_write():87] open: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/run-3qn135nj.wandb
+2024-06-05 15:45:55,592 DEBUG   SenderThread:3101 [sender.py:send():378] send: header
+2024-06-05 15:45:55,626 DEBUG   SenderThread:3101 [sender.py:send():378] send: run
+2024-06-05 15:45:56,208 INFO    SenderThread:3101 [dir_watcher.py:__init__():211] watching files in: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files
+2024-06-05 15:45:56,208 INFO    SenderThread:3101 [sender.py:_start_run_threads():1123] run started: 3qn135nj with start time 1717591555.590375
+2024-06-05 15:45:56,220 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: check_version
+2024-06-05 15:45:56,220 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: check_version
+2024-06-05 15:45:56,292 INFO    Thread-25 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/config.yaml
+2024-06-05 15:45:56,468 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: run_start
+2024-06-05 15:45:56,469 DEBUG   HandlerThread:3101 [system_info.py:__init__():26] System info init
+2024-06-05 15:45:56,469 DEBUG   HandlerThread:3101 [system_info.py:__init__():41] System info init done
+2024-06-05 15:45:56,469 INFO    HandlerThread:3101 [system_monitor.py:start():194] Starting system monitor
+2024-06-05 15:45:56,469 INFO    SystemMonitor:3101 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2024-06-05 15:45:56,469 INFO    HandlerThread:3101 [system_monitor.py:probe():214] Collecting system info
+2024-06-05 15:45:56,473 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started cpu monitoring
+2024-06-05 15:45:56,473 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started disk monitoring
+2024-06-05 15:45:56,477 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started gpuapple monitoring
+2024-06-05 15:45:56,478 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started memory monitoring
+2024-06-05 15:45:56,479 INFO    SystemMonitor:3101 [interfaces.py:start():188] Started network monitoring
+2024-06-05 15:45:56,688 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:45:56,688 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:45:56,819 DEBUG   HandlerThread:3101 [system_info.py:probe():150] Probing system
+2024-06-05 15:45:56,820 DEBUG   HandlerThread:3101 [system_info.py:_probe_git():135] Probing git
+2024-06-05 15:45:56,861 DEBUG   HandlerThread:3101 [system_info.py:_probe_git():143] Probing git done
+2024-06-05 15:45:56,862 DEBUG   HandlerThread:3101 [system_info.py:probe():198] Probing system done
+2024-06-05 15:45:56,862 DEBUG   HandlerThread:3101 [system_monitor.py:probe():223] {'os': 'macOS-14.5-arm64-arm-64bit', 'python': '3.12.2', 'heartbeatAt': '2024-06-05T12:45:56.820021', 'startedAt': '2024-06-05T12:45:55.586531', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '<python with no main file>', 'codePathLocal': None, 'git': {'remote': 'https://github.com/sanowl/StyleGAN3-nerual-network.git', 'commit': '794c45b035cac2b1508c8444d007167244d9ca0c'}, 'email': '99511815+sanowl@users.noreply.github.com', 'root': '/Users/san./Documents/GitHub/StyleGAN3-for-cat-images', 'host': 'Sans-MacBook-Pro.local', 'username': 'san.', 'executable': '/opt/anaconda3/envs/pot/bin/python', 'cpu_count': 10, 'cpu_count_logical': 10, 'cpu_freq': {'current': 3228, 'min': 600, 'max': 3228}, 'cpu_freq_per_core': [{'current': 3228, 'min': 600, 'max': 3228}], 'disk': {'/': {'total': 365.7021484375, 'used': 299.23343658447266}}, 'gpuapple': {'type': 'Apple M1 Pro', 'vendor': 'sppci_vendor_Apple'}, 'memory': {'total': 16.0}}
+2024-06-05 15:45:56,862 INFO    HandlerThread:3101 [system_monitor.py:probe():224] Finished collecting system info
+2024-06-05 15:45:56,862 INFO    HandlerThread:3101 [system_monitor.py:probe():227] Publishing system info
+2024-06-05 15:45:56,862 DEBUG   HandlerThread:3101 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2024-06-05 15:45:56,974 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:45:57,214 INFO    Thread-64 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/conda-environment.yaml
+2024-06-05 15:45:59,962 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:00,813 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:00,972 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:01,238 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:46:01,239 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:46:01,999 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:02,671 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:46:02,672 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:46:03,211 DEBUG   HandlerThread:3101 [system_info.py:_save_conda():222] Saving conda packages done
+2024-06-05 15:46:03,211 INFO    HandlerThread:3101 [system_monitor.py:probe():229] Finished publishing system info
+2024-06-05 15:46:03,211 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:03,211 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: keepalive
+2024-06-05 15:46:03,212 DEBUG   SenderThread:3101 [sender.py:send():378] send: files
+2024-06-05 15:46:03,212 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-metadata.json with policy now
+2024-06-05 15:46:03,243 INFO    Thread-64 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/conda-environment.yaml
+2024-06-05 15:46:03,244 INFO    Thread-64 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/wandb-metadata.json
+2024-06-05 15:46:03,350 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: python_packages
+2024-06-05 15:46:03,350 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:46:03,350 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: python_packages
+2024-06-05 15:46:03,351 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:46:03,735 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:46:04,089 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /var/folders/y8/9mpx0pq52897sg562ch699100000gn/T/tmpp_cmupv5wandb/ybry6o3i-wandb-metadata.json
+2024-06-05 15:46:04,249 INFO    Thread-64 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/requirements.txt
+2024-06-05 15:46:04,975 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:05,991 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:06,553 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:06,696 INFO    Thread-38 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/config.yaml
+2024-06-05 15:46:06,744 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:06,904 INFO    cpu       :3101 [interfaces.py:monitor():138] Process cpu has exited.
+2024-06-05 15:46:06,905 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-05 15:46:06,906 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-05 15:46:06,907 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-05 15:46:06,909 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:46:06,909 DEBUG   SenderThread:3101 [sender.py:send():378] send: stats
+2024-06-05 15:46:07,891 INFO    cpu       :3101 [interfaces.py:monitor():138] Process cpu has exited.
+2024-06-05 15:46:07,892 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-05 15:46:07,892 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-05 15:46:07,892 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-05 15:46:07,893 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:46:07,893 DEBUG   SenderThread:3101 [sender.py:send():378] send: stats
+2024-06-05 15:46:07,990 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:08,493 INFO    cpu       :3101 [interfaces.py:monitor():138] Process cpu has exited.
+2024-06-05 15:46:08,493 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-05 15:46:08,494 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-05 15:46:08,494 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-05 15:46:08,494 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:46:08,495 DEBUG   SenderThread:3101 [sender.py:send():378] send: stats
+2024-06-05 15:46:08,504 INFO    cpu       :3101 [interfaces.py:monitor():138] Process cpu has exited.
+2024-06-05 15:46:08,505 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-05 15:46:08,505 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-05 15:46:08,505 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-05 15:46:08,505 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:46:08,506 DEBUG   SenderThread:3101 [sender.py:send():378] send: stats
+2024-06-05 15:46:10,485 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2024-06-05 15:46:10,486 DEBUG   SenderThread:3101 [sender.py:send():378] send: telemetry
+2024-06-05 15:46:10,486 DEBUG   SenderThread:3101 [sender.py:send():378] send: stats
+2024-06-05 15:46:10,905 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:11,942 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:12,504 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:12,513 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:13,511 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:14,466 INFO    Thread-12 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/config.yaml
+2024-06-05 15:46:15,931 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:16,730 INFO    Thread-51 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/config.yaml
+2024-06-05 15:46:16,954 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:17,530 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:17,537 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:17,676 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: stop_status
+2024-06-05 15:46:17,677 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: stop_status
+2024-06-05 15:46:18,929 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:21,205 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:21,972 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:22,551 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:22,557 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:23,949 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:25,986 DEBUG   SenderThread:3101 [sender.py:send():378] send: exit
+2024-06-05 15:46:25,988 DEBUG   SenderThread:3101 [sender.py:send():378] send: exit
+2024-06-05 15:46:25,991 INFO    SenderThread:3101 [sender.py:send_exit():585] handling exit code: 1
+2024-06-05 15:46:25,989 DEBUG   SenderThread:3101 [sender.py:send():378] send: exit
+2024-06-05 15:46:25,989 DEBUG   SenderThread:3101 [sender.py:send():378] send: exit
+2024-06-05 15:46:25,989 INFO    SenderThread:3101 [sender.py:send_exit():585] handling exit code: 1
+2024-06-05 15:46:25,989 DEBUG   SenderThread:3101 [sender.py:send():378] send: exit
+2024-06-05 15:46:25,992 INFO    SenderThread:3101 [sender.py:send_exit():587] handling runtime: 51
+2024-06-05 15:46:25,992 INFO    SenderThread:3101 [sender.py:send_exit():585] handling exit code: 1
+2024-06-05 15:46:25,992 INFO    SenderThread:3101 [sender.py:send_exit():585] handling exit code: 1
+2024-06-05 15:46:25,992 INFO    SenderThread:3101 [sender.py:send_exit():587] handling runtime: 75
+2024-06-05 15:46:25,993 INFO    SenderThread:3101 [sender.py:send_exit():585] handling exit code: 1
+2024-06-05 15:46:25,993 INFO    SenderThread:3101 [sender.py:send_exit():587] handling runtime: 61
+2024-06-05 15:46:25,995 INFO    SenderThread:3101 [sender.py:send_exit():587] handling runtime: 40
+2024-06-05 15:46:25,996 INFO    SenderThread:3101 [sender.py:send_exit():587] handling runtime: 29
+2024-06-05 15:46:25,997 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,000 INFO    SenderThread:3101 [sender.py:send_exit():593] send defer
+2024-06-05 15:46:26,002 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,003 INFO    SenderThread:3101 [sender.py:send_exit():593] send defer
+2024-06-05 15:46:26,003 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,003 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,003 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,003 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,003 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,004 INFO    SenderThread:3101 [sender.py:send_exit():593] send defer
+2024-06-05 15:46:26,005 INFO    SenderThread:3101 [sender.py:send_exit():593] send defer
+2024-06-05 15:46:26,005 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-05 15:46:26,005 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-05 15:46:26,006 INFO    SenderThread:3101 [sender.py:send_exit():593] send defer
+2024-06-05 15:46:26,006 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,006 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,007 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,007 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,007 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,007 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-05 15:46:26,007 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-05 15:46:26,007 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-05 15:46:26,007 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-05 15:46:26,007 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 0
+2024-06-05 15:46:26,008 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,008 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 1
+2024-06-05 15:46:26,008 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,008 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 1
+2024-06-05 15:46:26,008 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,008 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-05 15:46:26,009 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,009 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-05 15:46:26,009 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,009 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 0
+2024-06-05 15:46:26,009 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 1
+2024-06-05 15:46:26,009 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-05 15:46:26,009 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 1
+2024-06-05 15:46:26,009 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-05 15:46:26,010 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 1
+2024-06-05 15:46:26,010 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,010 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,010 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,010 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,010 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,010 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-05 15:46:26,010 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-05 15:46:26,011 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-05 15:46:26,011 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-05 15:46:26,011 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 1
+2024-06-05 15:46:26,011 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 2
+2024-06-05 15:46:26,011 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 2
+2024-06-05 15:46:26,012 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,012 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,012 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,012 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,012 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,012 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-05 15:46:26,012 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-05 15:46:26,012 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 1
+2024-06-05 15:46:26,012 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-05 15:46:26,013 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-05 15:46:26,013 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 2
+2024-06-05 15:46:26,013 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 2
+2024-06-05 15:46:26,013 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 2
+2024-06-05 15:46:26,013 INFO    HandlerThread:3101 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-05 15:46:26,013 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,014 INFO    HandlerThread:3101 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-05 15:46:26,014 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,014 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,014 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-05 15:46:26,014 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-05 15:46:26,014 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-05 15:46:26,014 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-05 15:46:26,014 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 2
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined disk monitor
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined disk monitor
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [system_monitor.py:finish():203] Stopping system monitor
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-05 15:46:26,015 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-05 15:46:26,016 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2024-06-05 15:46:26,016 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-05 15:46:26,016 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined cpu monitor
+2024-06-05 15:46:26,016 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined memory monitor
+2024-06-05 15:46:26,017 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined disk monitor
+2024-06-05 15:46:26,017 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined memory monitor
+2024-06-05 15:46:26,017 DEBUG   SystemMonitor:3101 [system_monitor.py:_start():183] Publishing last batch of metrics
+2024-06-05 15:46:26,017 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined disk monitor
+2024-06-05 15:46:26,017 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined disk monitor
+2024-06-05 15:46:26,017 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined network monitor
+2024-06-05 15:46:26,018 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-05 15:46:26,018 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined network monitor
+2024-06-05 15:46:26,019 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-05 15:46:26,019 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined gpuapple monitor
+2024-06-05 15:46:26,019 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,019 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined memory monitor
+2024-06-05 15:46:26,019 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined memory monitor
+2024-06-05 15:46:26,019 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined memory monitor
+2024-06-05 15:46:26,019 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,019 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-05 15:46:26,020 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined network monitor
+2024-06-05 15:46:26,020 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined network monitor
+2024-06-05 15:46:26,020 INFO    HandlerThread:3101 [interfaces.py:finish():200] Joined network monitor
+2024-06-05 15:46:26,020 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-05 15:46:26,020 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 3
+2024-06-05 15:46:26,021 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,021 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 3
+2024-06-05 15:46:26,021 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,021 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,021 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-05 15:46:26,022 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,022 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,022 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-05 15:46:26,022 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 2
+2024-06-05 15:46:26,022 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 3
+2024-06-05 15:46:26,022 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-05 15:46:26,022 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-05 15:46:26,022 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 3
+2024-06-05 15:46:26,023 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 3
+2024-06-05 15:46:26,023 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,023 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,023 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,023 DEBUG   SenderThread:3101 [sender.py:send():378] send: stats
+2024-06-05 15:46:26,023 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,024 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,024 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-05 15:46:26,024 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-05 15:46:26,024 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-05 15:46:26,024 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-05 15:46:26,024 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 3
+2024-06-05 15:46:26,025 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,025 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 4
+2024-06-05 15:46:26,025 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 4
+2024-06-05 15:46:26,025 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,025 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,025 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-05 15:46:26,025 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,026 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,026 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-05 15:46:26,026 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 3
+2024-06-05 15:46:26,026 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 4
+2024-06-05 15:46:26,026 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-05 15:46:26,026 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-05 15:46:26,026 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 4
+2024-06-05 15:46:26,026 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 4
+2024-06-05 15:46:26,026 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,027 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,028 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,028 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,028 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,028 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-05 15:46:26,028 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-05 15:46:26,029 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-05 15:46:26,029 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-05 15:46:26,029 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 4
+2024-06-05 15:46:26,029 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 5
+2024-06-05 15:46:26,030 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,030 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,030 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 5
+2024-06-05 15:46:26,030 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,031 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,031 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-05 15:46:26,031 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-05 15:46:26,031 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 4
+2024-06-05 15:46:26,031 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,031 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-05 15:46:26,031 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 5
+2024-06-05 15:46:26,031 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 5
+2024-06-05 15:46:26,031 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 5
+2024-06-05 15:46:26,031 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-05 15:46:26,032 DEBUG   SenderThread:3101 [sender.py:send():378] send: summary
+2024-06-05 15:46:26,032 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,032 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,032 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,032 DEBUG   SenderThread:3101 [sender.py:send():378] send: summary
+2024-06-05 15:46:26,033 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-05 15:46:26,033 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-05 15:46:26,033 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 5
+2024-06-05 15:46:26,033 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,033 DEBUG   SenderThread:3101 [sender.py:send():378] send: summary
+2024-06-05 15:46:26,033 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,033 DEBUG   SenderThread:3101 [sender.py:send():378] send: summary
+2024-06-05 15:46:26,034 DEBUG   SenderThread:3101 [sender.py:send():378] send: summary
+2024-06-05 15:46:26,034 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,034 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,034 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,034 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-05 15:46:26,034 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,034 INFO    SenderThread:3101 [sender.py:_save_file():1389] saving file wandb-summary.json with policy end
+2024-06-05 15:46:26,034 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-05 15:46:26,035 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,035 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 6
+2024-06-05 15:46:26,035 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,035 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,035 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 6
+2024-06-05 15:46:26,035 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-05 15:46:26,035 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,035 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-05 15:46:26,035 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 5
+2024-06-05 15:46:26,036 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,036 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 6
+2024-06-05 15:46:26,036 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-05 15:46:26,036 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 6
+2024-06-05 15:46:26,036 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 6
+2024-06-05 15:46:26,036 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-05 15:46:26,036 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,036 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,036 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,036 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,036 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-05 15:46:26,036 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,036 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-05 15:46:26,036 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-05 15:46:26,037 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 6
+2024-06-05 15:46:26,037 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-05 15:46:26,037 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,037 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 7
+2024-06-05 15:46:26,037 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:26,037 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,039 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,039 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:26,039 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-05 15:46:26,039 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,039 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-05 15:46:26,039 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 6
+2024-06-05 15:46:26,041 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:26,041 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-05 15:46:26,041 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 7
+2024-06-05 15:46:26,041 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:26,043 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:26,043 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,043 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,044 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-05 15:46:26,044 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-05 15:46:26,044 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 8
+2024-06-05 15:46:26,044 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,044 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-05 15:46:26,044 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,044 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-05 15:46:26,044 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,044 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-05 15:46:26,044 INFO    SenderThread:3101 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-05 15:46:26,046 INFO    SenderThread:3101 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-05 15:46:26,046 WARNING SenderThread:3101 [job_builder.py:_log_if_verbose():267] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-05 15:46:26,046 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 9
+2024-06-05 15:46:26,046 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,046 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-05 15:46:26,046 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,046 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-05 15:46:26,046 INFO    SenderThread:3101 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-05 15:46:26,263 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 7
+2024-06-05 15:46:26,269 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 7
+2024-06-05 15:46:26,275 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,275 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,275 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-05 15:46:26,276 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-05 15:46:26,276 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,276 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-05 15:46:26,276 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 8
+2024-06-05 15:46:26,276 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,277 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-05 15:46:26,277 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 7
+2024-06-05 15:46:26,277 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,277 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,277 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,277 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 7
+2024-06-05 15:46:26,278 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-05 15:46:26,278 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-05 15:46:26,278 INFO    SenderThread:3101 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-05 15:46:26,278 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,278 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 8
+2024-06-05 15:46:26,279 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 7
+2024-06-05 15:46:26,279 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,279 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 8
+2024-06-05 15:46:26,279 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-05 15:46:26,279 INFO    SenderThread:3101 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-05 15:46:26,280 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,280 WARNING SenderThread:3101 [job_builder.py:_log_if_verbose():267] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-05 15:46:26,280 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,280 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-05 15:46:26,280 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 9
+2024-06-05 15:46:26,280 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-05 15:46:26,281 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,281 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,281 INFO    SenderThread:3101 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-05 15:46:26,281 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-05 15:46:26,281 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-05 15:46:26,281 INFO    SenderThread:3101 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-05 15:46:26,282 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,282 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-05 15:46:26,282 INFO    SenderThread:3101 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-05 15:46:26,282 INFO    SenderThread:3101 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-05 15:46:26,282 INFO    SenderThread:3101 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-05 15:46:26,282 WARNING SenderThread:3101 [job_builder.py:_log_if_verbose():267] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-05 15:46:26,283 WARNING SenderThread:3101 [job_builder.py:_log_if_verbose():267] No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job
+2024-06-05 15:46:26,283 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 9
+2024-06-05 15:46:26,283 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 9
+2024-06-05 15:46:26,283 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,283 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,283 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-05 15:46:26,283 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-05 15:46:26,283 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,284 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,284 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-05 15:46:26,284 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-05 15:46:26,284 INFO    SenderThread:3101 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-05 15:46:26,284 INFO    SenderThread:3101 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-05 15:46:26,333 INFO    SenderThread:3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/config.yaml
+2024-06-05 15:46:26,334 INFO    SenderThread:3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/wandb-summary.json
+2024-06-05 15:46:26,334 INFO    SenderThread:3101 [dir_watcher.py:finish():388] scan: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files
+2024-06-05 15:46:26,335 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/requirements.txt requirements.txt
+2024-06-05 15:46:26,339 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/config.yaml config.yaml
+2024-06-05 15:46:26,343 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/wandb-summary.json wandb-summary.json
+2024-06-05 15:46:26,343 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/conda-environment.yaml conda-environment.yaml
+2024-06-05 15:46:26,344 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/wandb-metadata.json wandb-metadata.json
+2024-06-05 15:46:26,344 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 10
+2024-06-05 15:46:26,346 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,351 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-05 15:46:26,352 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,354 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-05 15:46:26,356 INFO    SenderThread:3101 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 15:46:26,418 INFO    SenderThread:3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/config.yaml
+2024-06-05 15:46:26,419 INFO    SenderThread:3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/wandb-summary.json
+2024-06-05 15:46:26,432 INFO    SenderThread:3101 [dir_watcher.py:finish():388] scan: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files
+2024-06-05 15:46:26,432 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/requirements.txt requirements.txt
+2024-06-05 15:46:26,432 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/config.yaml config.yaml
+2024-06-05 15:46:26,433 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/wandb-summary.json wandb-summary.json
+2024-06-05 15:46:26,434 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/conda-environment.yaml conda-environment.yaml
+2024-06-05 15:46:26,435 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/wandb-metadata.json wandb-metadata.json
+2024-06-05 15:46:26,436 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 10
+2024-06-05 15:46:26,437 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,437 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-05 15:46:26,437 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,437 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-05 15:46:26,437 INFO    SenderThread:3101 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 15:46:26,516 INFO    Thread-12 :3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/wandb-summary.json
+2024-06-05 15:46:26,717 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 8
+2024-06-05 15:46:26,717 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,718 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 8
+2024-06-05 15:46:26,718 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,718 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 8
+2024-06-05 15:46:26,718 INFO    SenderThread:3101 [job_builder.py:build():432] Attempting to build job artifact
+2024-06-05 15:46:26,719 INFO    SenderThread:3101 [job_builder.py:_get_source_type():565] is repo sourced job
+2024-06-05 15:46:26,762 INFO    SenderThread:3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/config.yaml
+2024-06-05 15:46:26,762 INFO    SenderThread:3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/wandb-summary.json
+2024-06-05 15:46:26,762 INFO    SenderThread:3101 [dir_watcher.py:_on_file_created():271] file/dir created: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/wandb-summary.json
+2024-06-05 15:46:26,763 INFO    SenderThread:3101 [dir_watcher.py:finish():388] scan: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files
+2024-06-05 15:46:26,763 INFO    SenderThread:3101 [dir_watcher.py:finish():388] scan: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files
+2024-06-05 15:46:26,763 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/requirements.txt requirements.txt
+2024-06-05 15:46:26,763 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/requirements.txt requirements.txt
+2024-06-05 15:46:26,763 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/config.yaml config.yaml
+2024-06-05 15:46:26,764 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/config.yaml config.yaml
+2024-06-05 15:46:26,765 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/wandb-summary.json wandb-summary.json
+2024-06-05 15:46:26,767 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/wandb-summary.json wandb-summary.json
+2024-06-05 15:46:26,767 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/conda-environment.yaml conda-environment.yaml
+2024-06-05 15:46:26,769 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/conda-environment.yaml conda-environment.yaml
+2024-06-05 15:46:26,772 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/wandb-metadata.json wandb-metadata.json
+2024-06-05 15:46:26,772 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 10
+2024-06-05 15:46:26,773 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/wandb-metadata.json wandb-metadata.json
+2024-06-05 15:46:26,774 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,774 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 10
+2024-06-05 15:46:26,775 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-05 15:46:26,775 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,775 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,775 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-05 15:46:26,775 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-05 15:46:26,776 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:26,776 INFO    SenderThread:3101 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 15:46:26,776 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-05 15:46:26,776 INFO    SenderThread:3101 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 15:46:26,776 INFO    SenderThread:3101 [job_builder.py:build():541] adding wandb-job metadata file
+2024-06-05 15:46:26,778 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 9
+2024-06-05 15:46:26,778 DEBUG   SenderThread:3101 [sender.py:send():378] send: artifact
+2024-06-05 15:46:26,778 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:26,779 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 9
+2024-06-05 15:46:26,879 INFO    wandb-upload_1:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/config.yaml
+2024-06-05 15:46:26,990 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:26,990 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:26,990 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:26,991 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:26,992 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:26,992 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:26,992 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:26,993 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:26,993 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:26,996 INFO    wandb-upload_1:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/config.yaml
+2024-06-05 15:46:27,055 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/requirements.txt
+2024-06-05 15:46:27,137 INFO    wandb-upload_2:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/wandb-summary.json
+2024-06-05 15:46:27,155 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/requirements.txt
+2024-06-05 15:46:27,236 INFO    wandb-upload_3:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154555-3qn135nj/files/conda-environment.yaml
+2024-06-05 15:46:27,280 INFO    wandb-upload_2:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/wandb-summary.json
+2024-06-05 15:46:27,295 INFO    wandb-upload_1:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/config.yaml
+2024-06-05 15:46:27,309 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/requirements.txt
+2024-06-05 15:46:27,409 INFO    wandb-upload_3:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154523-ajhsup9p/files/conda-environment.yaml
+2024-06-05 15:46:27,439 INFO    Thread-63 (_thread_body):3101 [sender.py:transition_state():613] send defer: 11
+2024-06-05 15:46:27,440 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:27,440 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-05 15:46:27,441 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:27,441 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-06-05 15:46:27,442 INFO    SenderThread:3101 [file_pusher.py:join():175] waiting for file pusher
+2024-06-05 15:46:27,443 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 12
+2024-06-05 15:46:27,443 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:27,444 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-05 15:46:27,444 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:27,445 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-06-05 15:46:27,445 INFO    SenderThread:3101 [file_stream.py:finish():601] file stream finish called
+2024-06-05 15:46:27,481 INFO    wandb-upload_1:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/config.yaml
+2024-06-05 15:46:27,489 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/requirements.txt
+2024-06-05 15:46:27,522 INFO    Thread-12 :3101 [dir_watcher.py:_on_file_modified():288] file/dir modified: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/output.log
+2024-06-05 15:46:27,613 INFO    Thread-24 (_thread_body):3101 [sender.py:transition_state():613] send defer: 11
+2024-06-05 15:46:27,615 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:27,616 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-05 15:46:27,625 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:27,626 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-06-05 15:46:27,626 INFO    SenderThread:3101 [file_pusher.py:join():175] waiting for file pusher
+2024-06-05 15:46:27,627 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 12
+2024-06-05 15:46:27,632 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:27,632 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-05 15:46:27,633 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:27,633 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-06-05 15:46:27,633 INFO    SenderThread:3101 [file_stream.py:finish():601] file stream finish called
+2024-06-05 15:46:27,664 INFO    wandb-upload_2:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/wandb-summary.json
+2024-06-05 15:46:27,719 INFO    wandb-upload_2:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/wandb-summary.json
+2024-06-05 15:46:27,732 INFO    wandb-upload_3:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154544-lpxx48jw/files/conda-environment.yaml
+2024-06-05 15:46:27,937 INFO    Thread-50 (_thread_body):3101 [sender.py:transition_state():613] send defer: 11
+2024-06-05 15:46:27,939 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:27,939 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-05 15:46:27,940 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:27,940 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-06-05 15:46:27,941 INFO    SenderThread:3101 [file_pusher.py:join():175] waiting for file pusher
+2024-06-05 15:46:27,942 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 12
+2024-06-05 15:46:27,942 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:27,943 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-05 15:46:27,943 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:27,944 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-06-05 15:46:27,944 INFO    SenderThread:3101 [file_stream.py:finish():601] file stream finish called
+2024-06-05 15:46:27,998 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,001 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,001 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,001 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,002 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,092 INFO    wandb-upload_3:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154533-i3obme07/files/conda-environment.yaml
+2024-06-05 15:46:28,295 INFO    Thread-37 (_thread_body):3101 [sender.py:transition_state():613] send defer: 11
+2024-06-05 15:46:28,296 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,296 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-05 15:46:28,296 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,297 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-06-05 15:46:28,297 INFO    SenderThread:3101 [file_pusher.py:join():175] waiting for file pusher
+2024-06-05 15:46:28,297 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 12
+2024-06-05 15:46:28,297 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,298 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-05 15:46:28,298 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,298 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-06-05 15:46:28,298 INFO    SenderThread:3101 [file_stream.py:finish():601] file stream finish called
+2024-06-05 15:46:28,494 INFO    SenderThread:3101 [file_stream.py:finish():605] file stream finish is done
+2024-06-05 15:46:28,495 INFO    SenderThread:3101 [file_stream.py:finish():605] file stream finish is done
+2024-06-05 15:46:28,495 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 13
+2024-06-05 15:46:28,496 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 13
+2024-06-05 15:46:28,496 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,496 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,497 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,497 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,498 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-05 15:46:28,498 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-05 15:46:28,498 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,499 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,499 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-06-05 15:46:28,499 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-06-05 15:46:28,499 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 14
+2024-06-05 15:46:28,500 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 14
+2024-06-05 15:46:28,500 DEBUG   SenderThread:3101 [sender.py:send():378] send: final
+2024-06-05 15:46:28,501 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,501 DEBUG   SenderThread:3101 [sender.py:send():378] send: final
+2024-06-05 15:46:28,501 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,502 DEBUG   SenderThread:3101 [sender.py:send():378] send: footer
+2024-06-05 15:46:28,502 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-05 15:46:28,502 DEBUG   SenderThread:3101 [sender.py:send():378] send: footer
+2024-06-05 15:46:28,503 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-05 15:46:28,504 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,504 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,505 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-06-05 15:46:28,505 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-06-05 15:46:28,506 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,507 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,507 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,508 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,509 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,528 INFO    SenderThread:3101 [sender.py:send_artifact():1467] sent artifact job-https___github.com_sanowl_StyleGAN3-nerual-network.git_slm.py - {'id': 'QXJ0aWZhY3Q6ODYxMTg0MjM4', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjE4MjQ5NTUzNw==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6ODYxMTg0MjM4', 'versionIndex': 0}}}
+2024-06-05 15:46:28,529 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,529 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 9
+2024-06-05 15:46:28,529 INFO    SenderThread:3101 [dir_watcher.py:finish():358] shutting down directory watcher
+2024-06-05 15:46:28,606 INFO    SenderThread:3101 [file_stream.py:finish():605] file stream finish is done
+2024-06-05 15:46:28,607 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 13
+2024-06-05 15:46:28,607 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,607 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,608 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-05 15:46:28,609 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,609 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-06-05 15:46:28,610 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 14
+2024-06-05 15:46:28,610 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,611 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-05 15:46:28,611 DEBUG   SenderThread:3101 [sender.py:send():378] send: final
+2024-06-05 15:46:28,612 DEBUG   SenderThread:3101 [sender.py:send():378] send: footer
+2024-06-05 15:46:28,612 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,612 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-06-05 15:46:28,613 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,614 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,614 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,616 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,618 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,618 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,741 INFO    SenderThread:3101 [file_stream.py:finish():605] file stream finish is done
+2024-06-05 15:46:28,742 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 13
+2024-06-05 15:46:28,742 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,742 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,743 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-05 15:46:28,744 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,744 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-06-05 15:46:28,745 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 14
+2024-06-05 15:46:28,746 DEBUG   SenderThread:3101 [sender.py:send():378] send: final
+2024-06-05 15:46:28,746 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:28,746 DEBUG   SenderThread:3101 [sender.py:send():378] send: footer
+2024-06-05 15:46:28,746 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-05 15:46:28,747 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:28,748 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-06-05 15:46:28,748 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,749 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,750 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,749 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:28,749 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,752 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,752 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:28,753 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:29,533 INFO    SenderThread:3101 [dir_watcher.py:finish():388] scan: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files
+2024-06-05 15:46:29,534 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/requirements.txt requirements.txt
+2024-06-05 15:46:29,534 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/output.log output.log
+2024-06-05 15:46:29,538 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/config.yaml config.yaml
+2024-06-05 15:46:29,539 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/wandb-summary.json wandb-summary.json
+2024-06-05 15:46:29,539 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/conda-environment.yaml conda-environment.yaml
+2024-06-05 15:46:29,539 INFO    SenderThread:3101 [dir_watcher.py:finish():402] scan save: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/wandb-metadata.json wandb-metadata.json
+2024-06-05 15:46:29,540 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 10
+2024-06-05 15:46:29,540 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:29,541 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:29,546 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 10
+2024-06-05 15:46:29,593 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:29,595 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 10
+2024-06-05 15:46:29,595 INFO    SenderThread:3101 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 15:46:29,754 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:29,756 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:29,757 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:29,758 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:29,758 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:29,760 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:29,760 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:29,762 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:29,763 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:29,764 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:30,077 INFO    wandb-upload_0:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/requirements.txt
+2024-06-05 15:46:30,277 INFO    wandb-upload_1:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/output.log
+2024-06-05 15:46:30,421 INFO    wandb-upload_2:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/config.yaml
+2024-06-05 15:46:30,426 INFO    wandb-upload_3:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/wandb-summary.json
+2024-06-05 15:46:30,548 INFO    wandb-upload_4:3101 [upload_job.py:push():130] Uploaded file /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/files/conda-environment.yaml
+2024-06-05 15:46:30,753 INFO    Thread-11 (_thread_body):3101 [sender.py:transition_state():613] send defer: 11
+2024-06-05 15:46:30,755 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:30,755 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 11
+2024-06-05 15:46:30,757 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:30,757 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 11
+2024-06-05 15:46:30,757 INFO    SenderThread:3101 [file_pusher.py:join():175] waiting for file pusher
+2024-06-05 15:46:30,758 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 12
+2024-06-05 15:46:30,759 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:30,759 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 12
+2024-06-05 15:46:30,760 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:30,760 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 12
+2024-06-05 15:46:30,760 INFO    SenderThread:3101 [file_stream.py:finish():601] file stream finish called
+2024-06-05 15:46:30,764 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:30,765 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:30,765 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:30,765 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:30,766 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:30,767 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:30,768 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:30,770 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:30,771 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,467 INFO    SenderThread:3101 [file_stream.py:finish():605] file stream finish is done
+2024-06-05 15:46:31,468 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 13
+2024-06-05 15:46:31,468 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,469 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:31,471 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 13
+2024-06-05 15:46:31,472 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:31,472 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 13
+2024-06-05 15:46:31,473 INFO    SenderThread:3101 [sender.py:transition_state():613] send defer: 14
+2024-06-05 15:46:31,473 DEBUG   SenderThread:3101 [sender.py:send():378] send: final
+2024-06-05 15:46:31,474 DEBUG   SenderThread:3101 [sender.py:send():378] send: footer
+2024-06-05 15:46:31,473 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: defer
+2024-06-05 15:46:31,474 INFO    HandlerThread:3101 [handler.py:handle_request_defer():184] handle defer: 14
+2024-06-05 15:46:31,475 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: defer
+2024-06-05 15:46:31,475 INFO    SenderThread:3101 [sender.py:send_request_defer():609] handle sender defer: 14
+2024-06-05 15:46:31,476 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:31,476 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:31,477 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:31,477 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,477 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,478 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:31,478 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,479 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:31,480 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: poll_exit
+2024-06-05 15:46:31,480 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,481 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,482 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: server_info
+2024-06-05 15:46:31,482 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: poll_exit
+2024-06-05 15:46:31,483 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: get_summary
+2024-06-05 15:46:31,483 DEBUG   SenderThread:3101 [sender.py:send_request():405] send_request: server_info
+2024-06-05 15:46:31,484 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: sampled_history
+2024-06-05 15:46:31,486 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-05 15:46:31,872 INFO    MainThread:3101 [wandb_run.py:_footer_history_summary_info():3994] rendering history
+2024-06-05 15:46:31,873 INFO    MainThread:3101 [wandb_run.py:_footer_history_summary_info():4026] rendering summary
+2024-06-05 15:46:31,873 INFO    MainThread:3101 [wandb_run.py:_footer_sync_info():3953] logging synced files
+2024-06-05 15:46:31,875 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: shutdown
+2024-06-05 15:46:31,875 INFO    HandlerThread:3101 [handler.py:finish():882] shutting down handler
+2024-06-05 15:46:32,485 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:32,485 DEBUG   HandlerThread:3101 [handler.py:handle_request():158] handle_request: status_report
+2024-06-05 15:46:32,487 INFO    WriterThread:3101 [datastore.py:close():296] close: /Users/san./Documents/GitHub/StyleGAN3-for-cat-images/wandb/run-20240605_154509-onursvg0/run-onursvg0.wandb
+2024-06-05 15:46:32,875 INFO    SenderThread:3101 [sender.py:finish():1545] shutting down sender
+2024-06-05 15:46:32,875 INFO    SenderThread:3101 [file_pusher.py:finish():169] shutting down file pusher
+2024-06-05 15:46:32,876 INFO    SenderThread:3101 [file_pusher.py:join():175] waiting for file pusher
