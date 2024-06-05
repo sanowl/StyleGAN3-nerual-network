@@ -11,27 +11,18 @@ import torchvision
 from transformers import CLIPTokenizer, CLIPModel
 import logging
 from torch.cuda.amp import GradScaler, autocast
+import json
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Configuration class
-class Config:
-    dataset_path = 'dataset'
-    batch_size = 32
-    num_epochs = 100
-    latent_dim = 256
-    hidden_dim = 256
-    output_channels = 3
-    num_layers = 6
-    learning_rate = 0.0002
-    ema_decay = 0.999
-    gradient_penalty_weight = 10
-    path_length_weight = 2
-    style_mixing_weight = 2
-    checkpoint_interval = 10
-    early_stopping_patience = 10
-    accumulate_grad_batches = 4  # Gradient accumulation
+# Load configuration from a JSON file
+def load_config(config_file):
+    with open(config_file, 'r') as file:
+        config = json.load(file)
+    return config
+
+config = load_config('config.json')
 
 # Neural network components
 class MappingNetwork(nn.Module):
@@ -41,8 +32,6 @@ class MappingNetwork(nn.Module):
         for _ in range(num_layers - 1):
             layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.ReLU()])
         self.mapping = nn.Sequential(*layers)
-        
-         
 
     def forward(self, x):
         return self.mapping(x)
@@ -80,7 +69,6 @@ class SelfAttention(nn.Module):
         query = self.query(x).view(batch_size, -1, width * height).permute(0, 2, 1)
         key = self.key(x).view(batch_size, -1, width * height)
         attention = torch.bmm(query, key)
-        attention = torch.bmm(query,save_checkpoint)
         attention = F.softmax(attention, dim=-1)
         value = self.value(x).view(batch_size, -1, width * height)
         out = torch.bmm(value, attention.permute(0, 2, 1))
@@ -278,10 +266,10 @@ def save_generated_images(generator, latent_dim, clip_model, clip_tokenizer, dev
         plt.close()
 
 def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_model, clip_tokenizer, device, prompts):
-    g_optim = optim.Adam(generator.parameters(), lr=Config.learning_rate, betas=(0.0, 0.99))
-    d_optim = optim.Adam(discriminator.parameters(), lr=Config.learning_rate, betas=(0.0, 0.99))
+    g_optim = optim.Adam(generator.parameters(), lr=config['learning_rate'], betas=(0.0, 0.99))
+    d_optim = optim.Adam(discriminator.parameters(), lr=config['learning_rate'], betas=(0.0, 0.99))
     
-    g_ema = ExponentialMovingAverage(generator.parameters(), decay=Config.ema_decay)
+    g_ema = ExponentialMovingAverage(generator.parameters(), decay=config['ema_decay'])
     scaler = GradScaler()  # For mixed precision training
     
     def d_loss_fn(real_scores, fake_scores):
@@ -310,10 +298,10 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
                 real_scores = discriminator(real_images)
                 fake_scores = discriminator(fake_images.detach())
                 gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
-                d_loss = d_loss_fn(real_scores, fake_scores) + Config.gradient_penalty_weight * gradient_penalty
+                d_loss = d_loss_fn(real_scores, fake_scores) + config['gradient_penalty_weight'] * gradient_penalty
 
             scaler.scale(d_loss).backward()
-            if (i + 1) % Config.accumulate_grad_batches == 0:
+            if (i + 1) % config['accumulate_grad_batches'] == 0:
                 scaler.step(d_optim)
                 scaler.update()
             
@@ -329,10 +317,10 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
                 fake_scores = discriminator(fake_images)
                 path_length_regularization = compute_path_length_regularization(generator, z, fake_images)
                 style_mixing_regularization = compute_style_mixing_regularization(generator, z)
-                g_loss = g_loss_fn(fake_scores) + Config.path_length_weight * path_length_regularization + Config.style_mixing_weight * style_mixing_regularization
+                g_loss = g_loss_fn(fake_scores) + config['path_length_weight'] * path_length_regularization + config['style_mixing_weight'] * style_mixing_regularization
 
             scaler.scale(g_loss).backward()
-            if (i + 1) % Config.accumulate_grad_batches == 0:
+            if (i + 1) % config['accumulate_grad_batches'] == 0:
                 scaler.step(g_optim)
                 scaler.update()
             
@@ -341,7 +329,7 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
         logging.info(f"Epoch {epoch+1}/{num_epochs}, D Loss: {d_loss.item()}, G Loss: {g_loss.item()}")
 
         # Checkpointing
-        if (epoch + 1) % Config.checkpoint_interval == 0:
+        if (epoch + 1) % config['checkpoint_interval'] == 0:
             save_checkpoint(generator, discriminator, epoch)
             save_generated_images(generator, latent_dim, clip_model, clip_tokenizer, device, prompts, epoch)
 
@@ -351,7 +339,7 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
             early_stopping_counter = 0
         else:
             early_stopping_counter += 1
-            if early_stopping_counter >= Config.early_stopping_patience:
+            if early_stopping_counter >= config['early_stopping_patience']:
                 logging.info(f"Early stopping at epoch {epoch+1}")
                 return
 
@@ -360,7 +348,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu'))
     clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
     clip_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
-    generator = Generator(Config.latent_dim, Config.hidden_dim, Config.output_channels, Config.num_layers, clip_model).to(device)
+    generator = Generator(config['latent_dim'], config['hidden_dim'], config['output_channels'], config['num_layers'], clip_model).to(device)
     discriminator = Discriminator(input_channels=3, hidden_dim=64, num_layers=4).to(device)
 
     # Define prompts for conditioning
@@ -378,7 +366,7 @@ if __name__ == '__main__':
     ]
 
     # Load dataset
-    dataloader = load_dataset(Config.dataset_path, Config.batch_size)
+    dataloader = load_dataset(config['dataset_path'], config['batch_size'])
 
     # Train the GAN
-    train(generator, discriminator, dataloader, Config.num_epochs, Config.latent_dim, clip_model, clip_tokenizer, device, prompts)
+    train(generator, discriminator, dataloader, config['num_epochs'], config['latent_dim'], clip_model, clip_tokenizer, device, prompts)
