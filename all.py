@@ -16,15 +16,21 @@ from torchvision.models import inception_v3
 from scipy.linalg import sqrtm
 import numpy as np
 
-
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Load configuration from a JSON file
 def load_config(config_file):
-    with open(config_file, 'r') as file:
-        config = json.load(file)
-    return config
+    try:
+        with open(config_file, 'r') as file:
+            config = json.load(file)
+        return config
+    except FileNotFoundError:
+        logging.error(f"Configuration file '{config_file}' not found.")
+        raise
+    except json.JSONDecodeError as e:
+        logging.error(f"Error decoding JSON from configuration file: {e}")
+        raise
 
 config = load_config('config.json')
 
@@ -228,6 +234,7 @@ def compute_style_mixing_regularization(generator, z):
 
 def load_dataset(dataset_path, batch_size):
     if not os.path.exists(dataset_path):
+        logging.error(f"Dataset path '{dataset_path}' does not exist.")
         raise FileNotFoundError(f"Dataset path '{dataset_path}' does not exist.")
 
     transform = transforms.Compose([
@@ -242,55 +249,76 @@ def load_dataset(dataset_path, batch_size):
         logging.info(f"Loaded dataset with {len(dataset)} images.")
         return dataloader
     except Exception as e:
-        raise RuntimeError(f"Error loading dataset: {e}")
+        logging.error(f"Error loading dataset: {e}")
+        raise
 
 def extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size):
-    with torch.no_grad():
-        inputs = clip_tokenizer(prompt, return_tensors="pt", padding=True, truncation=True).to(device)
-        text_features = clip_model.get_text_features(**inputs)
-        text_features = text_features / text_features.norm(dim=-1, keepdim=True)
-        text_features = text_features.expand(batch_size, -1)  # Expand to match batch size
-    return text_features
+    try:
+        with torch.no_grad():
+            inputs = clip_tokenizer(prompt, return_tensors="pt", padding=True, truncation=True).to(device)
+            text_features = clip_model.get_text_features(**inputs)
+            text_features = text_features / text_features.norm(dim=-1, keepdim=True)
+            text_features = text_features.expand(batch_size, -1)  # Expand to match batch size
+        return text_features
+    except Exception as e:
+        logging.error(f"Error extracting prompt embedding: {e}")
+        raise
 
 def save_checkpoint(generator, discriminator, epoch):
-    torch.save(generator.state_dict(), f"generator_epoch_{epoch+1}.pth")
-    torch.save(discriminator.state_dict(), f"discriminator_epoch_{epoch+1}.pth")
+    try:
+        torch.save(generator.state_dict(), f"generator_epoch_{epoch+1}.pth")
+        torch.save(discriminator.state_dict(), f"discriminator_epoch_{epoch+1}.pth")
+    except Exception as e:
+        logging.error(f"Error saving checkpoint: {e}")
+        raise
 
 def save_generated_images(generator, latent_dim, clip_model, clip_tokenizer, device, prompts, epoch):
-    with torch.no_grad():
-        z = torch.randn(16, latent_dim, device=device)
-        prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
-        prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, z.size(0))
-        fake_images = generator(z, prompt_embedding)
-        fake_images = (fake_images + 1) / 2  # Denormalize
-        grid = torchvision.utils.make_grid(fake_images, nrow=4)
-        plt.imshow(grid.permute(1, 2, 0).cpu().numpy())
-        plt.title(f"Epoch {epoch+1} - Prompt: {prompt}")
-        plt.savefig(f"generated_images_epoch_{epoch+1}.png")
-        plt.close()
+    try:
+        with torch.no_grad():
+            z = torch.randn(16, latent_dim, device=device)
+            prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+            prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, z.size(0))
+            fake_images = generator(z, prompt_embedding)
+            fake_images = (fake_images + 1) / 2  # Denormalize
+            grid = torchvision.utils.make_grid(fake_images, nrow=4)
+            plt.imshow(grid.permute(1, 2, 0).cpu().numpy())
+            plt.title(f"Epoch {epoch+1} - Prompt: {prompt}")
+            plt.savefig(f"generated_images_epoch_{epoch+1}.png")
+            plt.close()
+    except Exception as e:
+        logging.error(f"Error saving generated images: {e}")
+        raise
 
 # Calculate FID
 def calculate_fid(real_activations, fake_activations):
-    mu1, sigma1 = real_activations.mean(axis=0), np.cov(real_activations, rowvar=False)
-    mu2, sigma2 = fake_activations.mean(axis=0), np.cov(fake_activations, rowvar=False)
-    ssdiff = np.sum((mu1 - mu2) ** 2.0)
-    covmean = sqrtm(sigma1.dot(sigma2))
-    if np.iscomplexobj(covmean):
-        covmean = covmean.real
-    fid = ssdiff + np.trace(sigma1 + sigma2 - 2.0 * covmean)
-    return fid
+    try:
+        mu1, sigma1 = real_activations.mean(axis=0), np.cov(real_activations, rowvar=False)
+        mu2, sigma2 = fake_activations.mean(axis=0), np.cov(fake_activations, rowvar=False)
+        ssdiff = np.sum((mu1 - mu2) ** 2.0)
+        covmean = sqrtm(sigma1.dot(sigma2))
+        if np.iscomplexobj(covmean):
+            covmean = covmean.real
+        fid = ssdiff + np.trace(sigma1 + sigma2 - 2.0 * covmean)
+        return fid
+    except Exception as e:
+        logging.error(f"Error calculating FID: {e}")
+        raise
 
 # Extract activations from Inception model
 def get_activations(model, dataloader, device):
-    model.eval()
-    activations = []
-    with torch.no_grad():
-        for images, _ in dataloader:
-            images = images.to(device)
-            pred = model(images)[0]
-            activations.append(pred.cpu().numpy())
-    activations = np.concatenate(activations, axis=0)
-    return activations
+    try:
+        model.eval()
+        activations = []
+        with torch.no_grad():
+            for images, _ in dataloader:
+                images = images.to(device)
+                pred = model(images)[0]
+                activations.append(pred.cpu().numpy())
+        activations = np.concatenate(activations, axis=0)
+        return activations
+    except Exception as e:
+        logging.error(f"Error extracting activations: {e}")
+        raise
 
 def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_model, clip_tokenizer, device, prompts):
     g_optim = optim.Adam(generator.parameters(), lr=config['learning_rate'], betas=(0.0, 0.99))
@@ -312,83 +340,91 @@ def train(generator, discriminator, dataloader, num_epochs, latent_dim, clip_mod
     early_stopping_counter = 0
     
     for epoch in range(num_epochs):
-        for i, (real_images, _) in enumerate(dataloader):
-            real_images = real_images.to(device)
-            batch_size = real_images.shape[0]
-            
-            # Train discriminator
-            d_optim.zero_grad()
-            
-            with autocast():  # Mixed precision training
-                z = torch.randn(batch_size, latent_dim).to(device)
-                prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
-                prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
+        try:
+            for i, (real_images, _) in enumerate(dataloader):
+                real_images = real_images.to(device)
+                batch_size = real_images.shape[0]
                 
-                fake_images = generator(z, prompt_embedding)
-                real_scores = discriminator(real_images)
-                fake_scores = discriminator(fake_images.detach())
-                gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
-                d_loss = d_loss_fn(real_scores, fake_scores) + config['gradient_penalty_weight'] * gradient_penalty
-
-            scaler.scale(d_loss).backward()
-            if (i + 1) % config['accumulate_grad_batches'] == 0:
-                scaler.step(d_optim)
-                scaler.update()
-            
-            # Train generator
-            g_optim.zero_grad()
-            
-            with autocast():  # Mixed precision training
-                z = torch.randn(batch_size, latent_dim).to(device)
-                prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
-                prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
+                # Train discriminator
+                d_optim.zero_grad()
                 
-                fake_images = generator(z, prompt_embedding)
-                fake_scores = discriminator(fake_images)
-                path_length_regularization = compute_path_length_regularization(generator, z, fake_images)
-                style_mixing_regularization = compute_style_mixing_regularization(generator, z)
-                g_loss = g_loss_fn(fake_scores) + config['path_length_weight'] * path_length_regularization + config['style_mixing_weight'] * style_mixing_regularization
+                with autocast():  # Mixed precision training
+                    z = torch.randn(batch_size, latent_dim).to(device)
+                    prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+                    prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
+                    
+                    fake_images = generator(z, prompt_embedding)
+                    real_scores = discriminator(real_images)
+                    fake_scores = discriminator(fake_images.detach())
+                    gradient_penalty = compute_gradient_penalty(discriminator, real_images, fake_images, device)
+                    d_loss = d_loss_fn(real_scores, fake_scores) + config['gradient_penalty_weight'] * gradient_penalty
 
-            scaler.scale(g_loss).backward()
-            if (i + 1) % config['accumulate_grad_batches'] == 0:
-                scaler.step(g_optim)
-                scaler.update()
+                scaler.scale(d_loss).backward()
+                if (i + 1) % config['accumulate_grad_batches'] == 0:
+                    scaler.step(d_optim)
+                    scaler.update()
+                
+                # Train generator
+                g_optim.zero_grad()
+                
+                with autocast():  # Mixed precision training
+                    z = torch.randn(batch_size, latent_dim).to(device)
+                    prompt = prompts[torch.randint(0, len(prompts), (1,)).item()]
+                    prompt_embedding = extract_prompt_embedding(prompt, clip_model, clip_tokenizer, device, batch_size)
+                    
+                    fake_images = generator(z, prompt_embedding)
+                    fake_scores = discriminator(fake_images)
+                    path_length_regularization = compute_path_length_regularization(generator, z, fake_images)
+                    style_mixing_regularization = compute_style_mixing_regularization(generator, z)
+                    g_loss = g_loss_fn(fake_scores) + config['path_length_weight'] * path_length_regularization + config['style_mixing_weight'] * style_mixing_regularization
+
+                scaler.scale(g_loss).backward()
+                if (i + 1) % config['accumulate_grad_batches'] == 0:
+                    scaler.step(g_optim)
+                    scaler.update()
+                
+                g_ema.update(generator.parameters())
+
+            logging.info(f"Epoch {epoch+1}/{num_epochs}, D Loss: {d_loss.item()}, G Loss: {g_loss.item()}")
             
-            g_ema.update(generator.parameters())
+            # Checkpointing
+            if (epoch + 1) % config['checkpoint_interval'] == 0:
+                save_checkpoint(generator, discriminator, epoch)
+                save_generated_images(generator, latent_dim, clip_model, clip_tokenizer, device, prompts, epoch)
 
-        logging.info(f"Epoch {epoch+1}/{num_epochs}, D Loss: {d_loss.item()}, G Loss: {g_loss.item()}")
-        
+            # Calculate FID
+            real_activations = get_activations(inception, dataloader, device)
+            fake_images = generator(torch.randn(len(real_activations), latent_dim).to(device), extract_prompt_embedding(prompts[0], clip_model, clip_tokenizer, device, len(real_activations)).to(device))
+            fake_activations = get_activations(inception, fake_images, device)
+            fid = calculate_fid(real_activations, fake_activations)
+            logging.info(f"FID: {fid}")
+            wandb.log({"FID": fid})
 
-        # Checkpointing
-        if (epoch + 1) % config['checkpoint_interval'] == 0:
-            save_checkpoint(generator, discriminator, epoch)
-            save_generated_images(generator, latent_dim, clip_model, clip_tokenizer, device, prompts, epoch)
+            # Early Stopping
+            if fid < best_fid:
+                best_fid = fid
+                early_stopping_counter = 0
+            else:
+                early_stopping_counter += 1
+                if early_stopping_counter >= config['early_stopping_patience']:
+                    logging.info(f"Early stopping at epoch {epoch+1}")
+                    return
 
-        # Calculate FID
-        real_activations = get_activations(inception, dataloader, device)
-        fake_images = generator(torch.randn(len(real_activations), latent_dim).to(device), extract_prompt_embedding(prompts[0], clip_model, clip_tokenizer, device, len(real_activations)).to(device))
-        fake_activations = get_activations(inception, fake_images, device)
-        fid = calculate_fid(real_activations, fake_activations)
-        logging.info(f"FID: {fid}")
-        wandb.log({"FID": fid})
-
-        # Early Stopping
-        if fid < best_fid:
-            best_fid = fid
-            early_stopping_counter = 0
-        else:
-            early_stopping_counter += 1
-            if early_stopping_counter >= config['early_stopping_patience']:
-                logging.info(f"Early stopping at epoch {epoch+1}")
-                return
+        except Exception as e:
+            logging.error(f"Error during training epoch {epoch+1}: {e}")
+            raise
 
 if __name__ == '__main__':
     # Initialize models and move to device
-    device = torch.device('cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu'))
-    clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
-    clip_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
-    generator = Generator(config['latent_dim'], config['hidden_dim'], config['output_channels'], config['num_layers'], clip_model).to(device)
-    discriminator = Discriminator(input_channels=3, hidden_dim=64, num_layers=4).to(device)
+    try:
+        device = torch.device('cuda' if torch.cuda.is_available() else ('mps' if torch.backends.mps.is_available() else 'cpu'))
+        clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
+        clip_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-base-patch32")
+        generator = Generator(config['latent_dim'], config['hidden_dim'], config['output_channels'], config['num_layers'], clip_model).to(device)
+        discriminator = Discriminator(input_channels=3, hidden_dim=64, num_layers=4).to(device)
+    except Exception as e:
+        logging.error(f"Error initializing models: {e}")
+        raise
 
     # Define prompts for conditioning
     prompts = [
@@ -405,7 +441,15 @@ if __name__ == '__main__':
     ]
 
     # Load dataset
-    dataloader = load_dataset(config['dataset_path'], config['batch_size'])
+    try:
+        dataloader = load_dataset(config['dataset_path'], config['batch_size'])
+    except Exception as e:
+        logging.error(f"Error loading dataset: {e}")
+        raise
 
     # Train the GAN
-    train(generator, discriminator, dataloader, config['num_epochs'], config['latent_dim'], clip_model, clip_tokenizer, device, prompts)
+    try:
+        train(generator, discriminator, dataloader, config['num_epochs'], config['latent_dim'], clip_model, clip_tokenizer, device, prompts)
+    except Exception as e:
+        logging.error(f"Error during training: {e}")
+        raise
